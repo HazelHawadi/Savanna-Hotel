@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savanna Hotel</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Welcome to Savanna Hotel</h1>
+    <div class="rooms">
+        {% for room in rooms %}
+            <div class="room">
+                <img src="{{ room.image.url }}" alt="{{ room.name }}">
+                <h3>{{ room.name }}</h3>
+                <p>{{ room.description }}</p>
+                <p>${{ room.price }}</p>
+                <a href="{% url 'hotel_booking:room_details' room.id %}">View Details</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

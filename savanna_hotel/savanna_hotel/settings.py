@@ -27,7 +27,9 @@ SECRET_KEY = 'django-insecure-$1ctyrdzp-9r_@#$s&^y9e&2nobhk^^@_qt%5&utp1ew9kwvm$
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io', '127.0.0.1', 'localhost'
+    '127.0.0.1',
+    'localhost',
+    '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io/',
 ]
 
 

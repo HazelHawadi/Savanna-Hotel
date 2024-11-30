@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io/',
+    '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
 ]
 
 
@@ -60,8 +60,8 @@ ROOT_URLCONF = 'savanna_hotel.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'savanna_hotel/hotel_booking/templates')],  # Path to templates
+        'APP_DIRS': True,  # Enables Django to look for templates in app directories
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

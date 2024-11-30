@@ -43,10 +43,42 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-light py-4 mt-4">
-        <div class="container text-center">
-            <p>&copy; 2024 Savanna Hotel. All rights reserved.</p>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>Email: info@savannahotel.com</p>
+                <p>Phone: +353 456 7890</p>
+                <p>Address: 542 Savanna St, tralee, Ireland</p>
+            </div>
+            <div class="footer-subscribe">
+                <h4>Stay Updated</h4>
+                <form action="/subscribe" method="POST">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-social">
+                <a href="https://youtube.com/" target="_blank" rel="noopener"
+                    aria-label="Go to our Youtube page (opens in a new tab)">
+                    <i class="fa-brands fa-square-youtube"></i></a>
+
+                <a href="https://www.facebook.com/" target="_blank" rel="noopener"
+                    aria-label="Go to our Facebook page (opens in a new tab)">
+                    <i class="fa-brands fa-square-facebook"></i></a>
+
+                <a href="https://instagram.com/" target="_blank" rel="noopener"
+                    aria-label="Go to our Instagram page (opens in a new tab)">
+                    <i class="fa-brands fa-square-instagram"></i></a>
+
+                <a href="https://twitter.com/" target="_blank" rel="noopener"
+                    aria-label="Go to our Twitter page (opens in a new tab)">
+                    <i class="fa-brands fa-square-x-twitter"></i></a>
+
+            </div>
         </div>
+        <p>&copy; 2024 Savanna Hotel. All rights reserved.</p>
     </footer>
 
     <!-- Include Bootstrap JS (for interactive components like dropdowns) -->

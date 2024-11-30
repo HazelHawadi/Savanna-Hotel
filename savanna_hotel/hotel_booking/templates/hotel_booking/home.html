@@ -1,0 +1,26 @@
+{% extends 'hotel_booking/base_generic.html' %}
+
+{% block title %}Welcome to Savanna Hotel{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">Welcome to Savanna Hotel</h1>
+    <p class="lead">Browse our available rooms:</p>
+
+    <div class="row">
+        {% for room in rooms %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ room.name }}</h5>
+                        <p class="card-text">{{ room.description }}</p>
+                        <p class="card-text"><strong>Price per night:</strong> ${{ room.price }}</p>
+                        <a href="{% url 'hotel_booking:room_details' room.id %}" class="btn btn-primary">View details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No rooms available at the moment.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

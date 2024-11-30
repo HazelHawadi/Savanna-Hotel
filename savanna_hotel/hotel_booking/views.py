@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Room, Booking
 from .forms import BookingForm, AddRoomForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 
 # Create your views here.
@@ -56,3 +57,14 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'hotel_booking/register.html', {'form': form})
+
+def custom_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('hotel_booking:index')  # Redirect to homepage or booking page
+    else:
+        form = AuthenticationForm()
+    return render(request, 'hotel_booking/login.html', {'form': form})

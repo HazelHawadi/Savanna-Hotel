@@ -1,0 +1,32 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Book Room: {{ room.name }}</h1>
+
+    <!-- Booking Form -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="duration" class="form-label">Duration (in nights)</label>
+            <input type="number" class="form-control" id="duration" name="duration" min="1" required>
+        </div>
+
+        <div class="mb-3">
+            <p><strong>Total Cost: $</strong><span id="total_cost">{{ room.price }}</span></p>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirm Booking</button>
+    </form>
+</div>
+{% endblock %}

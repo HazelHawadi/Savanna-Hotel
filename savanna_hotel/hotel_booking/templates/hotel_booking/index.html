@@ -3,6 +3,12 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4">Welcome to Savanna Hotel</h1>
+    <h5>Nestled in the heart of nature's beauty, Savanna Hotel offers an unparalleled escape into a world of
+        sophistication and serenity. Our exquisite rooms, world-class amenities, and personalized service are designed
+        to provide a truly unforgettable experience. Whether you're here for a relaxing retreat or an extraordinary
+        adventure, Savanna Hotel promises a stay filled with luxury, style, and comfort. Come and indulge in the
+        ultimate hotel experience, where every detail is crafted with elegance and your satisfaction is our top
+        priority.</h2>
     <p class="lead">Feel Free To See What We Have For You..</p>
 
     <div class="row">
@@ -10,7 +16,7 @@
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
                 <!-- Room image -->
-                <img src="{{ room.image.url }}" alt="{{ room.name }}" class="card-img-top" >
+                <img src="{{ room.image.url }}" alt="{{ room.name }}" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{ room.name }}</h5>
                     <p class="card-text">{{ room.description|truncatewords:15 }}</p>

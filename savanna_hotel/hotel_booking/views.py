@@ -1,11 +1,13 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Room, Booking
 from .forms import BookingForm, AddRoomForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Permission
 from django.contrib import messages
 from datetime import date
 from decimal import Decimal
@@ -23,22 +25,36 @@ def index(request):
     rooms = Room.objects.all()  # This fetches all the rooms from the database
     return render(request, 'hotel_booking/index.html', {'rooms': rooms})
 
+@login_required
 def add_room(request):
+    # Only allow staff users (admin or users with the 'can_add_room' permission)
+    if not request.user.has_perm('hotel_booking.add_room'):
+        messages.error(request, 'You do not have permission to add a room.')
+        return redirect('hotel_booking:index')
+    
     if request.method == 'POST':
-        form = AddRoomForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('hotel_booking:admin_home')
-    else:
-        form = AddRoomForm()
-    return render(request, 'hotel_booking/add_room.html', {'form': form})
+        # Handle room creation logic here
+        room = Room(
+            name=request.POST['name'],
+            price=request.POST['price'],
+            description=request.POST['description'],
+        )
+        room.save()
+        messages.success(request, 'Room added successfully!')
+        return redirect('hotel_booking:index')
+
+    return render(request, 'hotel_booking/add_room.html')
 
 def room_details(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'hotel_booking/room_details.html', {'room': room})
 
-@login_required
+@login_required  # Ensure this decorator remains in place
 def book_room(request, room_id):
+    # Additional manual check for debugging
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You must be logged in to access this page.")
+
     room = get_object_or_404(Room, id=room_id)
     total_cost = None  # Initialize total_cost for GET request
 
@@ -46,38 +62,34 @@ def book_room(request, room_id):
         check_in_date = request.POST.get('check_in_date')
         check_out_date = request.POST.get('check_out_date')
 
-        # Handle missing dates
         if not check_in_date:
             check_in_date = date.today()
 
         if not check_out_date:
             check_out_date = date.today()
 
-        # Calculate the duration in days
+        # Calculate duration
         duration = int((date.fromisoformat(check_out_date) - date.fromisoformat(check_in_date)).days)
-
-        # If duration is negative, set it to 1 day
         if duration < 1:
             duration = 1
 
-        # Calculate the total cost using Decimal for correct arithmetic
+        # Calculate the total cost
         total_cost = Decimal(room.price) * Decimal(duration)
 
-        # Create the booking
+        # Create booking
         booking = Booking.objects.create(
             room=room,
-            name=request.user.get_full_name(),  # Use logged-in user's name
-            email=request.user.email,  # Use logged-in user's email
+            name=request.user.get_full_name(),
+            email=request.user.email,
             check_in_date=check_in_date,
             check_out_date=check_out_date,
             duration=duration,
-            total_cost=total_cost
+            total_cost=total_cost,
         )
 
         return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
 
     return render(request, 'hotel_booking/book_room.html', {'room': room})
-
 def booking_confirmation(request, booking_id):
     # Retrieve the booking using the booking_id
     booking = get_object_or_404(Booking, id=booking_id)

@@ -6,7 +6,7 @@ class Room(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)  
-    image = models.ImageField(upload_to='rooms/')
+    image = models.ImageField(upload_to='rooms/', default='rooms/default_image.jpg')
     available = models.BooleanField(default=True)
 
 class Booking(models.Model):

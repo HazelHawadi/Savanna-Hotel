@@ -5,6 +5,10 @@ from .forms import BookingForm, AddRoomForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from datetime import date
+from decimal import Decimal
 
 # Create your views here.
 
@@ -33,38 +37,70 @@ def room_details(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'hotel_booking/room_details.html', {'room': room})
 
+@login_required
 def book_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
+    total_cost = None  # Initialize total_cost for GET request
+
     if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        duration = int(request.POST['duration'])
-        total_cost = room.price * duration
+        check_in_date = request.POST.get('check_in_date')
+        check_out_date = request.POST.get('check_out_date')
 
+        # Handle missing dates
+        if not check_in_date:
+            check_in_date = date.today()
+
+        if not check_out_date:
+            check_out_date = date.today()
+
+        # Calculate the duration in days
+        duration = int((date.fromisoformat(check_out_date) - date.fromisoformat(check_in_date)).days)
+
+        # If duration is negative, set it to 1 day
+        if duration < 1:
+            duration = 1
+
+        # Calculate the total cost using Decimal for correct arithmetic
+        total_cost = Decimal(room.price) * Decimal(duration)
+
+        # Create the booking
         booking = Booking.objects.create(
-            room=room, name=name, email=email, duration=duration, total_cost=total_cost
+            room=room,
+            name=request.user.get_full_name(),  # Use logged-in user's name
+            email=request.user.email,  # Use logged-in user's email
+            check_in_date=check_in_date,
+            check_out_date=check_out_date,
+            duration=duration,
+            total_cost=total_cost
         )
-        return redirect('hotel_booking:booking_success', booking_id=booking.id)
-    return render(request, 'hotel_booking/book_room.html', {'room': room})
 
+        return redirect('hotel_booking:room_details', room_id=room.id)
+
+    return render(request, 'hotel_booking/book_room.html', {'room': room, 'total_cost': total_cost})
+    
+# Register view
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Log the user in after successful registration
-            return redirect('hotel_booking:index')  # Redirect to the home page or another page
+            login(request, user)
+            messages.success(request, 'Registration successful!')
+            return redirect('hotel_booking:index')  # Redirect to home page after successful registration
     else:
         form = UserCreationForm()
-    return render(request, 'hotel_booking/register.html', {'form': form})
 
+    return render(request, 'registration/register.html', {'form': form})
+
+# Custom login view
 def custom_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect('hotel_booking:index')  # Redirect to homepage or booking page
-    else:
-        form = AuthenticationForm()
-    return render(request, 'hotel_booking/login.html', {'form': form})
+            return redirect('hotel_booking:index')  # Redirect to home page after successful login
+        else:
+            messages.error(request, 'Invalid username or password')
+    return render(request, 'registration/login.html')

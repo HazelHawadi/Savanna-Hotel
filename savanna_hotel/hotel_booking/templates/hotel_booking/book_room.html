@@ -5,6 +5,7 @@
     <h1 class="mb-4">Book Room: {{ room.name }}</h1>
 
     <!-- Booking Form -->
+     <!-- Name Field -->
     <form method="POST">
         {% csrf_token %}
         <div class="mb-3">
@@ -12,21 +13,61 @@
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
 
+        <!-- Email Field -->
         <div class="mb-3">
             <label for="email" class="form-label">Your Email</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
 
+        <!-- Check-in Date -->
         <div class="mb-3">
-            <label for="duration" class="form-label">Duration (in nights)</label>
-            <input type="number" class="form-control" id="duration" name="duration" min="1" required>
+            <label for="check_in_date" class="form-label">Check-in Date</label>
+            <input type="date" class="form-control" id="check_in_date" name="check_in_date" required>
         </div>
 
+        <!-- Check-out Date -->
         <div class="mb-3">
-            <p><strong>Total Cost: $</strong><span id="total_cost">{{ room.price }}</span></p>
+            <label for="check_out_date" class="form-label">Check-out Date</label>
+            <input type="date" class="form-control" id="check_out_date" name="check_out_date" required>
+        </div>
+
+        <!-- Display Total Cost -->
+        <div class="mb-3">
+            <p><strong>Total Cost: $</strong><span id="total_cost">{{ total_cost }}</span></p>
         </div>
 
         <button type="submit" class="btn btn-success">Confirm Booking</button>
     </form>
 </div>
+
+<script>
+    // JavaScript to update total cost based on selected dates
+    document.getElementById("check_in_date").addEventListener("change", updateTotalCost);
+    document.getElementById("check_out_date").addEventListener("change", updateTotalCost);
+
+    function updateTotalCost() {
+        var checkInDate = document.getElementById("check_in_date").value;
+        var checkOutDate = document.getElementById("check_out_date").value;
+
+        if (checkInDate && checkOutDate) {
+            var startDate = new Date(checkInDate);
+            var endDate = new Date(checkOutDate);
+
+            // Calculate the duration in days
+            var timeDifference = endDate - startDate;
+            var duration = timeDifference / (1000 * 3600 * 24);  // Convert ms to days
+
+            if (duration < 1) {
+                duration = 1;  // Set to 1 day if duration is 0 or negative
+            }
+
+            // Update the total cost based on the room price
+            var roomPrice = {{ room.price|escapejs }};  // Pass the room price from the backend
+            var totalCost = roomPrice * duration;
+
+            // Display the total cost
+            document.getElementById("total_cost").innerText = totalCost.toFixed(2);
+        }
+    }
+</script>
 {% endblock %}

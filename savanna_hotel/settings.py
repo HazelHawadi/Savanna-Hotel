@@ -32,6 +32,10 @@ ALLOWED_HOSTS = [
     '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
+    # other domains i may be using for testing or production
+]
 
 # Application definition
 
@@ -126,8 +130,10 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [BASE_DIR / "static"]
+MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

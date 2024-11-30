@@ -13,7 +13,7 @@ def home(request):
 
 # Home page showing all rooms
 def index(request):
-    rooms = Room.objects.all()
+    rooms = Room.objects.all()  # This fetches all the rooms from the database
     return render(request, 'hotel_booking/index.html', {'rooms': rooms})
 
 def add_room(request):

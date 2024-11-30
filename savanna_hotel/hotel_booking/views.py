@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from .models import Room, Booking
 from .forms import BookingForm, AddRoomForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 
 # Create your views here.
 
@@ -43,3 +45,14 @@ def book_room(request, room_id):
         )
         return redirect('hotel_booking:booking_success', booking_id=booking.id)
     return render(request, 'hotel_booking/book_room.html', {'room': room})
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in after successful registration
+            return redirect('hotel_booking:index')  # Redirect to the home page or another page
+    else:
+        form = UserCreationForm()
+    return render(request, 'hotel_booking/register.html', {'form': form})

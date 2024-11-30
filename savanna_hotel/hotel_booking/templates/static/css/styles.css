@@ -12,7 +12,7 @@
 body {
     font-family: 'Playfair', sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
+    background-image: url('/static/images/wallpaper1.jpg');  /* Set the background image */
     color: #333;
 }
 
@@ -27,4 +27,24 @@ header {
 
 header h1 {
     font-size: 3em;
+}
+
+/* Navbar Styles */
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #004d40;
+    padding: 10px 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+nav a:hover {
+    color: #ffb74d; /* Hover effect */
 }

@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from hotel_booking import views  # Ensure you're importing the correct views
+from django.conf import settings
+from django.conf.urls.static import static  # Import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hotel-booking/', include('hotel_booking.urls')),
-    path('', views.index, name='index'),  # Keep this to show the homepage with rooms
-    path('add_room/', views.add_room, name='add_room'),
-]
+    path('hotel-booking/', include('hotel_booking.urls')),  
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('hotel_booking.urls')),  # Handle root URL here by including hotel_booking's URLs
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Serve static files during development

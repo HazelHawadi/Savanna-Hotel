@@ -49,14 +49,10 @@ def room_details(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'hotel_booking/room_details.html', {'room': room})
 
-@login_required  # Ensure this decorator remains in place
+@login_required
 def book_room(request, room_id):
-    # Additional manual check for debugging
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden("You must be logged in to access this page.")
-
     room = get_object_or_404(Room, id=room_id)
-    total_cost = None  # Initialize total_cost for GET request
+    total_cost = None
 
     if request.method == 'POST':
         check_in_date = request.POST.get('check_in_date')
@@ -64,7 +60,6 @@ def book_room(request, room_id):
 
         if not check_in_date:
             check_in_date = date.today()
-
         if not check_out_date:
             check_out_date = date.today()
 
@@ -73,7 +68,7 @@ def book_room(request, room_id):
         if duration < 1:
             duration = 1
 
-        # Calculate the total cost
+        # Calculate total cost
         total_cost = Decimal(room.price) * Decimal(duration)
 
         # Create booking
@@ -87,14 +82,13 @@ def book_room(request, room_id):
             total_cost=total_cost,
         )
 
+        # Redirect to confirmation page with booking_id
         return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
 
     return render(request, 'hotel_booking/book_room.html', {'room': room})
-def booking_confirmation(request, booking_id):
-    # Retrieve the booking using the booking_id
-    booking = get_object_or_404(Booking, id=booking_id)
 
-    # Render the confirmation template
+def booking_confirmation(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
     return render(request, 'hotel_booking/booking_confirmation.html', {'booking': booking})
 
 # Register view

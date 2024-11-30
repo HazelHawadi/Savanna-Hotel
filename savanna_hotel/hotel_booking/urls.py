@@ -10,4 +10,7 @@ urlpatterns = [
     path('room/<int:room_id>/', views.room_details, name='room_details'),
     path('add-room/', views.add_room, name='add_room'),
     path('book/<int:room_id>/', views.book_room, name='book_room'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

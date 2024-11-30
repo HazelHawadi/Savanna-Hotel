@@ -74,10 +74,17 @@ def book_room(request, room_id):
             total_cost=total_cost
         )
 
-        return redirect('hotel_booking:room_details', room_id=room.id)
+        return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
 
-    return render(request, 'hotel_booking/book_room.html', {'room': room, 'total_cost': total_cost})
-    
+    return render(request, 'hotel_booking/book_room.html', {'room': room})
+
+def booking_confirmation(request, booking_id):
+    # Retrieve the booking using the booking_id
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    # Render the confirmation template
+    return render(request, 'hotel_booking/booking_confirmation.html', {'booking': booking})
+
 # Register view
 def register(request):
     if request.method == 'POST':

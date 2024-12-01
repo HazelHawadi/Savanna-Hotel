@@ -12,7 +12,8 @@ from django.contrib import messages
 from datetime import date
 from decimal import Decimal
 from .forms_auth import CustomUserCreationForm 
-from savanna_hotel import hotel_booking
+from hotel_booking import views
+
 
 
 # Create your views here.

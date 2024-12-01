@@ -13,6 +13,7 @@ urlpatterns = [
     path('booking-confirmation/<int:booking_id>/', views.booking_confirmation, name='booking_confirmation'),
     path('accounts/login/', views.custom_login, name='login'),
     path('register/', views.register, name='register'),  # Register URL
+    path('hotel-booking/', views.hotel_booking_view, name='hotel_booking'),
     
 ] 
 

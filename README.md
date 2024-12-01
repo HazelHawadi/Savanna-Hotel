@@ -1,131 +1,152 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# School Report System
 
-Welcome Hazel Hawadi,
+![Website Mockup](assets/images/readme/mockup.png)
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+[This is a link to the live website]()
 
-You can safely delete this README.md file or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **June 18, 2024**
 
-## Gitpod Reminders
+## Table Of Contents
+- [Introduction](#introduction)
+- [Design](#design) 
+  * [User Feedback](#user-feedback)
+- [Application Features](#application-features)
+  * [Data/APIs Used](#dataapis-used)
+- [UX (User Experience)](#user-experience)
+- [Accessibility](#accessibility)
+- [Future Features](#future-features)
+- [Testing](#testing)  
+- [Deployment](#deployment)
+- [Technologies](#technologies)
+- [Code](#code)  
+- [Credits for images](#credits-for-images) 
+- [Acknowledgements](#acknowledgements) 
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
 
-`python3 -m http.server`
+## Introduction
+The Savanna Hotel Booking System is a web-based application that allows users to search for available rooms, view room details, and make bookings. The system provides a seamless experience for hotel guests and administrators, offering features such as room availability checking, booking management, and dynamic pricing calculations. The Savanna Hotel system is designed to make the hotel booking process easy and efficient.
 
-A blue button should appear to click: _Make Public_,
 
-Another blue button should appear to click: _Open Browser_.
+  ### User Feedback
+- Booking Confirmation: “Your booking has been confirmed! Your room is reserved.”
+- Login Success: “Welcome back! Login successful.”
+- Booking Error: “Booking failed. Please check the details and try again.”
 
-To run a backend Python file, type `python3 app.py` if your Python file is named `app.py`, of course.
+## Application Features
+## Backend Logic
+The Savanna Hotel Booking System leverages powerful backend features to ensure a smooth booking process:
+- User Authentication:
+Secure login system using Django for both admin and guest access.
+- Room Details:
+Each room's details, such as pricing, capacity, and availability, are displayed to the user for easy selection.
+- Total Cost Calculation:
+The system calculates the total cost based on room price and stay duration, and displays it in real time.
+- Admin Management:
+Admin can view all bookings, edit booking details, and cancel bookings. This ensures that the system is always up-to-date.
+- Booking Confirmation and Email Notification:
+Upon booking confirmation, the user receives a notification email with all booking details.
 
-A blue button should appear to click: _Make Public_,
+## Data/APIs Used
+- Django ORM:
+Django’s Object-Relational Mapping (ORM) is used for handling room and user data on the backend efficiently.
 
-Another blue button should appear to click: _Open Browser_.
+## User Experience
+### As a first time user:
 
-By Default, Gitpod gives you superuser security privileges. Therefore, you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+1. **Login Process:**
+  - Securely log in with your username and password.
+  - Receive immediate feedback on login status.
 
-To log into the Heroku toolbelt CLI:
+2. **Booking Process:**
+  - Select your desired room, enter personal details, and review your booking information.
+  - The system calculates the total cost based on your selected dates and room type.
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+3. **Booking Confirmation:**
+  - Receive a confirmation message and email with all booking details.
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you, so do not share it. If you accidentally make it public, you can create a new one with _Regenerate API Key_.
+### As a Returning User:
+1. **Report Generation:**
 
-### Connecting your Mongo database
+  -Generate booking summaries and reports for administrative purposes.
 
-- **Connect to Mongo CLI on a IDE**
-- navigate to your MongoDB Clusters Sandbox
-- click **"Connect"** button
-- select **"Connect with the MongoDB shell"**
-- select **"I have the mongo shell installed"**
-- choose **mongosh (2.0 or later)** for : **"Select your mongo shell version"**
-- choose option: **"Run your connection string in your command line"**
-- in the terminal, paste the copied code `mongo "mongodb+srv://<CLUSTER-NAME>.mongodb.net/<DBname>" --apiVersion 1 --username <USERNAME>`
-  - replace all `<angle-bracket>` keys with your own data
-- enter password _(will not echo **\*\*\*\*** on screen)_
+2. **Admin Panel:**
+  - Generate booking summaries and reports for administrative purposes.
 
-------
+## Accessibility
+- Color Contrast: The system ensures proper color contrast for readability, especially for users with visual impairments.
+-  Keyboard Navigation: All functionality can be accessed via keyboard for users with mobility challenges.
+- Screen Reader Compatibility: All critical content is accessible via screen readers to ensure inclusivity for users with disabilities.
+- Error Messages: Detailed error messages are provided to guide users in correcting any issues with their input.
 
-## Release History
+## Future Features
+- Payment Gateway Integration: Allow users to pay for bookings directly through the system.
+- Multi-Room Booking: Enable guests to book multiple rooms in one transaction.
+- Email Notifications: Automatically send booking confirmations and updates to users.
+- Mobile Application: Develop a mobile version of the platform for on-the-go booking.
+- Admin Dashboard Enhancements: Add graphs and detailed statistics for room occupancy and revenue tracking.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+## Testing
+### User story Testing
+- Login: Testing valid and invalid login attempts.
+- Booking Process: Confirming that total costs are calculated correctly and that bookings are saved.
+- Admin Access: Ensuring that admin can view and modify bookings without issues.
 
-**June 18, 2024,** Add Mongo back into template
+### Feature Testing
+- Room Selection: Ensured that the system correctly filters rooms by availability and displays relevant details.
 
-**June 14, 2024,** Temporarily remove Mongo until the key issue is resolved
+[CI Python Linter](https://pep8ci.herokuapp.com/#)
 
-**May 28 2024:** Fix Mongo and Links installs
+![python validation](assets/images/readme/python_validation.png)
 
-**April 26 2024:** Update node version to 16
+## Deployment
+### Heroku
 
-**September 20 2023:** Update Python version to 3.9.17.
+1. Sign into [Heroku](https://dashboard.heroku.com/apps)
+2. On the right side click **New** and select **Create new app**
+3. Create a new Heroku app with a unique name. Heroku will generate a random name if you don't specify one and select your region.
+4. Click **Create app**
+5. Close to the top select **Settings**, click on *Reveal Config Vars**
+  - On **Key** and **Value** input fields enter PORT and Paste everything copied from the **creds.json** folder in your gitpod workspace(respectively).
+6. Click **add** to create another set of KEY and VALUE.
+  - In the input fields add KEY: PORT, VALUE: 8000
+7. At the bottom, click **Add buildpack**, from the options select **python** and **nodejs** + **add buildpack** after selecting each.
+8. Close to the top where you clicked **Settings** this time click **Deploy**, click **connect to github**.
+  - search for the name of the repository you want to deploy and click **connect**
+9. Click **deploy branch**
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+## Technologies
+- Github for the source code.
+- Gitpod for creating the website.
+- Django: Web framework for backend logic and server-side functionality.
+- Code Institute's Gitpod Template
+- Heroku for deployment
+- Code institute learnings
+- Techsini to create a mockup of the website
+- Unsplash for images
+- PostgreSQL: Database for storing user and booking data.
+- HTML/CSS/JavaScript: Frontend design and interactivity.
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+## Code
+- [Code Institute](https://learn.codeinstitute.net/dashboard)
+- Tutorial videos- Programming with Mosh [YouTube](https://www.youtube.com/@programmingwithmosh)
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+## Credits for images
+** All images came from [Unsplash](https://unsplash.com/)
+- ikhale
+- Alex Tyson
+- Lisa Anna
+- abdul Raheem Kannath
+- Olexandr Ignatov
+- Lotus Design N Print
+- Chastity Corjijo
+- Mark champs
+- Devon Janse Van Rensburg
+- Reisetop
+- Despina-galani
+- GERAGOS YAGHLIAN
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+## Acknowledgement
+- I would like to thank my Mentor Mr Precious for his guidance and advice.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+- A big thanks to Slack Community for for always being someone willing to answer my questions.
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
-
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
-
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
-
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
-
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
+- A big thank you to the Code Institute team for their constant support and resources that made this project possible.

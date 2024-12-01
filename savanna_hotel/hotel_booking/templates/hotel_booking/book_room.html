@@ -31,8 +31,12 @@
 </div>
 
 <script>
-    var bookingId = "{{ booking_id }}";
-    console.log(bookingId); // This will log the value of bookingId in the browser console
+    // Room price passed from Django context to JS
+    var roomPrice = {
+        {
+            room.price | escapejs
+        }
+    }; // Ensure this value is safely passed as a number
 
     // JavaScript to update total cost based on selected dates
     document.getElementById("check_in_date").addEventListener("change", updateTotalCost);
@@ -55,11 +59,6 @@
             }
 
             // Update the total cost based on the room price
-            var roomPrice = {
-                {
-                    room.price | escapejs
-                }
-            }; // Pass the room price from the backend
             var totalCost = roomPrice * duration;
 
             // Display the total cost

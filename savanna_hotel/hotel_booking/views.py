@@ -11,14 +11,14 @@ from django.contrib.auth.models import Permission
 from django.contrib import messages
 from datetime import date
 from decimal import Decimal
+from .forms_auth import CustomUserCreationForm 
 
 # Create your views here.
 
 # Home view for the landing page
 def home(request):
-    # Fetch rooms to display on the homepage
-    rooms = Room.objects.all()  
-    return render(request, 'index.html', {'rooms': rooms})
+    rooms = Room.objects.all()  # Fetch all rooms from the database
+    return render(request, 'index.html', {'rooms': rooms})  # Render homepage template
 
 # Home page showing all rooms
 def index(request):
@@ -57,53 +57,53 @@ def book_room(request, room_id):
     if request.method == 'POST':
         check_in_date = request.POST.get('check_in_date')
         check_out_date = request.POST.get('check_out_date')
-
-        if not check_in_date:
-            check_in_date = date.today()
-        if not check_out_date:
-            check_out_date = date.today()
-
-        # Calculate duration
         duration = int((date.fromisoformat(check_out_date) - date.fromisoformat(check_in_date)).days)
         if duration < 1:
             duration = 1
 
-        # Calculate total cost
         total_cost = Decimal(room.price) * Decimal(duration)
 
-        # Create booking
         booking = Booking.objects.create(
             room=room,
-            name=request.user.get_full_name(),
-            email=request.user.email,
+            name=request.user.get_full_name(),  # Use user's full name
+            email=request.user.email,           # Use user's email
             check_in_date=check_in_date,
             check_out_date=check_out_date,
             duration=duration,
             total_cost=total_cost,
         )
 
-        # Redirect to confirmation page with booking_id
         return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
 
     return render(request, 'hotel_booking/book_room.html', {'room': room})
 
 def booking_confirmation(request, booking_id):
+    # Retrieve the booking using the booking_id
     booking = get_object_or_404(Booking, id=booking_id)
-    return render(request, 'hotel_booking/booking_confirmation.html', {'booking': booking})
+
+    # Pass the booking object to the template
+    return render(request, 'hotel_booking/booking_confirmation.html', {
+        'booking': booking,
+        'room_name': booking.room.name,
+        'check_in_date': booking.check_in_date,
+        'check_out_date': booking.check_out_date,
+        'total_cost': booking.total_cost,
+        'user_name': booking.name,
+        'user_email': booking.email,
+    })
 
 # Register view
+
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Registration successful!')
-            return redirect('hotel_booking:index')  # Redirect to home page after successful registration
+            return redirect('hotel_booking:home')  # Redirect to home after successful registration
     else:
-        form = UserCreationForm()
-
-    return render(request, 'registration/register.html', {'form': form})
+        form = CustomUserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
 # Custom login view
 def custom_login(request):

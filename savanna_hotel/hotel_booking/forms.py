@@ -22,3 +22,4 @@ class AddRoomForm(forms.ModelForm):
         if price <= 0:
             raise forms.ValidationError("Price must be greater than zero.")
         return price
+

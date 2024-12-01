@@ -69,33 +69,33 @@
 
     // Booking Form submission
     document.getElementById('bookingForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission
+        event.preventDefault(); // Prevent default form submission
 
-                // Get form values
-                var checkInDate = document.getElementById('check_in_date').value;
-                var checkOutDate = document.getElementById('check_out_date').value;
-                var totalCost = document.getElementById('total_cost').innerText;
+        // Get form values
+        var checkInDate = document.getElementById('check_in_date').value;
+        var checkOutDate = document.getElementById('check_out_date').value;
+        var totalCost = document.getElementById('total_cost').innerText;
 
-                // Prepare email parameters
-                var templateParams = {
-                    to_email: "{{ user.email }}", // Send to logged-in user's email
-                    room_name: "{{ room.name }}",
-                    check_in_date: checkInDate,
-                    check_out_date: checkOutDate,
-                    total_cost: totalCost
-                };
+        // Prepare email parameters
+        var templateParams = {
+            to_email: "{{ user.email }}", // Send to logged-in user's email
+            room_name: "{{ room.name }}",
+            check_in_date: checkInDate,
+            check_out_date: checkOutDate,
+            total_cost: totalCost
+        };
 
-                // Send email with EmailJS
-                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-                    .then(function (response) {
-                        console.log('Email sent successfully:', response);
-                    }, function (error) {
-                        console.log('Error sending email:', error);
-                    });
+        // Send email with EmailJS
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            .then(function (response) {
+                console.log('Email sent successfully:', response);
+            }, function (error) {
+                console.log('Error sending email:', error);
+            });
 
-                // can  submit the form or redirect as needed
-                alert("Booking confirmed and confirmation email sent!");
+        // can  submit the form or redirect as needed
+        alert("Booking confirmed and confirmation email sent!");
 
-            })
+    })
 </script>
 {% endblock %}

@@ -13,7 +13,7 @@ urlpatterns = [
     path('booking-confirmation/<int:booking_id>/', views.booking_confirmation, name='booking_confirmation'),
     path('accounts/login/', views.custom_login, name='login'),
     path('register/', views.register, name='register'),  # Register URL
-    path('login/', views.custom_login, name='login'),  # Login URL
+    
 ] 
 
 if settings.DEBUG:

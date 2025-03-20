@@ -120,3 +120,7 @@ def custom_login(request):
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'registration/login.html')
+
+
+def hotel_booking_view(request):
+    return render(request, 'hotel_booking/hotel_booking.html')

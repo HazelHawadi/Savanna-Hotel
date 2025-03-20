@@ -22,8 +22,8 @@
                     <p class="card-text">{{ room.description|truncatewords:15 }}</p>
                     <p class="text-success"><strong>${{ room.price }}</strong> per night</p>
                     <!-- Buttons to view details or book -->
-                    <a href="{% url 'hotel_booking:book_room' room.id %}" class="btn btn-primary">Book Now</a>
                     <a href="{% url 'hotel_booking:room_details' room.id %}" class="btn btn-info mt-2">View Details</a>
+                    <a href="{% url 'hotel_booking:book_room' room.id %}" class="btn btn-primary">Book Now</a>
                 </div>
             </div>
         </div>

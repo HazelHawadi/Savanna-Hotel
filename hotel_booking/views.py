@@ -13,6 +13,7 @@ from datetime import date
 from decimal import Decimal
 from .forms_auth import CustomUserCreationForm 
 from hotel_booking import views
+from django.contrib.auth import logout
 
 
 
@@ -50,7 +51,7 @@ def add_room(request):
 
 def room_details(request, room_id):
     room = Room.objects.get(id=room_id)
-    return render(request, 'hotel_booking/room_details.html', {'room': room})
+    return render(request, 'room_details.html', {'room': room})
 
 @login_required
 def book_room(request, room_id):
@@ -78,14 +79,14 @@ def book_room(request, room_id):
 
         return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
 
-    return render(request, 'hotel_booking/book_room.html', {'room': room})
+    return render(request, 'book_room.html', {'room': room})
 
 def booking_confirmation(request, booking_id):
     # Retrieve the booking using the booking_id
     booking = get_object_or_404(Booking, id=booking_id)
 
     # Pass the booking object to the template
-    return render(request, 'hotel_booking/booking_confirmation.html', {
+    return render(request, 'booking_confirmation.html', {
         'booking': booking,
         'room_name': booking.room.name,
         'check_in_date': booking.check_in_date,
@@ -99,28 +100,36 @@ def booking_confirmation(request, booking_id):
 
 def register(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('hotel_booking:home')  # Redirect to home after successful registration
+            login(request, user)  # Log in the user after registration
+            return redirect('hotel_booking:index')  # Redirect to home page after successful registration
     else:
-        form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+        form = UserCreationForm()
+    return render(request, 'accounts/register.html', {'form': form})
 
 # Custom login view
 def custom_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('hotel_booking:index')  # Redirect to home page after successful login
-        else:
-            messages.error(request, 'Invalid username or password')
-    return render(request, 'registration/login.html')
+    form = AuthenticationForm(request, data=request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password"],
+            )
+            if user is not None:
+                login(request, user)
+                return redirect("hotel_booking:index")  # Change to your home page view name
+
+    return render(request, "registration/login.html", {"form": form})
+
+def custom_logout(request):
+    logout(request)
+    return render(request, 'logout.html')
 
 
 def hotel_booking_view(request):
-    return render(request, 'hotel_booking/hotel_booking.html')
+    return render(request, 'hotel_booking.html')

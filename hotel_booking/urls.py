@@ -4,8 +4,9 @@ from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
 from .views import custom_login
+from .views import profile, edit_profile, delete_account
 
-app_name = 'hotel_booking'  #  defines the namespace
+app_name = 'hotel_booking'
 
 urlpatterns = [
     path('', views.index, name='index'),  
@@ -18,6 +19,9 @@ urlpatterns = [
     path('register/', views.register, name='register'),  # Register URL
     path('logout/', views.custom_logout, name='logout'),
     path('hotel-booking/', views.hotel_booking_view, name='hotel_booking'),
+    path("profile/", profile, name="profile"),
+    path("profile/edit/", edit_profile, name="edit_profile"),
+    path("profile/delete/", delete_account, name="delete_account"),
     
 ] 
 

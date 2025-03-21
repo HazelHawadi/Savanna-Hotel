@@ -45,5 +45,7 @@ def login_view(request):
     return render(request, "accounts/login.html", {"form": form})
 
 def logout_view(request):
+    """Handle user logout"""
     logout(request)
-    return redirect("hotel_booking:index")
+    messages.info(request, "You have been logged out.")
+    return redirect("home")  # Redirect to homepage

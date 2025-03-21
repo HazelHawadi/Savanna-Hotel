@@ -14,6 +14,8 @@ from decimal import Decimal
 from .forms_auth import CustomUserCreationForm 
 from hotel_booking import views
 from django.contrib.auth import logout
+from django.contrib.auth import get_user_model
+from .forms import UserUpdateForm
 
 
 
@@ -133,3 +135,34 @@ def custom_logout(request):
 
 def hotel_booking_view(request):
     return render(request, 'hotel_booking.html')
+
+@login_required
+def profile(request):
+    """Display user profile"""
+    return render(request, "accounts/profile.html", {"user": request.user})
+
+@login_required
+def edit_profile(request):
+    """Allow users to edit their profile"""
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("hotel_booking:profile")
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    return render(request, "accounts/edit_profile.html", {"form": form})
+
+@login_required
+def delete_account(request):
+    """Allow users to delete their account"""
+    if request.method == "POST":
+        user = request.user
+        logout(request)
+        user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect("hotel_booking:index")
+
+    return render(request, "accounts/delete_account.html")

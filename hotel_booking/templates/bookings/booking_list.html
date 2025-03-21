@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+{% block content %}
+  <h2>Your Bookings</h2>
+  <a href="{% url 'booking_create' %}" class="btn btn-primary">New Booking</a>
+  <ul>
+    {% for booking in bookings %}
+      <li>
+        Room: {{ booking.room }} | Check-in: {{ booking.check_in }} | Check-out: {{ booking.check_out }}
+        <a href="{% url 'booking_update' booking.id %}">Edit</a> |
+        <a href="{% url 'booking_delete' booking.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

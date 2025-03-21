@@ -1,5 +1,11 @@
 from django import forms
 from .models import Booking, Room
+from django.contrib.auth.models import User
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email"]
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -22,4 +28,3 @@ class AddRoomForm(forms.ModelForm):
         if price <= 0:
             raise forms.ValidationError("Price must be greater than zero.")
         return price
-

@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2 class="review-title">Leave a Review for {{ room.name }}</h2>
+
+<form method="post" class="review-form">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-button">Submit Review</button>
+        <a href="{% url 'hotel_booking:room_detail' room.id %}" class="cancel-button">Cancel</a>
+    </div>
+</form>
+{% endblock %}

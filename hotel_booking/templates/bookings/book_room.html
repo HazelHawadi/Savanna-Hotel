@@ -1,0 +1,100 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Book Room: {{ room.name }}</h1>
+
+    <!-- Booking Form -->
+    <!-- Name Field -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Check-in Date -->
+        <div class="mb-3">
+            <label for="check_in_date" class="form-label">Check-in Date</label>
+            <input type="date" class="form-control" id="check_in_date" name="check_in_date" required>
+        </div>
+
+        <!-- Check-out Date -->
+        <div class="mb-3">
+            <label for="check_out_date" class="form-label">Check-out Date</label>
+            <input type="date" class="form-control" id="check_out_date" name="check_out_date" required>
+        </div>
+
+        <!-- Display Total Cost -->
+        <div class="mb-3">
+            <p><strong>Total Cost: $</strong><span id="total_cost">{{ total_cost }}</span></p>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirm Booking</button>
+    </form>
+</div>
+
+<script>
+    // Room price passed from Django context to JS
+    var roomPrice = {
+        {
+            room.price | escapejs
+        }
+    };
+
+    // JavaScript to update total cost based on selected dates
+    document.getElementById("check_in_date").addEventListener("change", updateTotalCost);
+    document.getElementById("check_out_date").addEventListener("change", updateTotalCost);
+
+    function updateTotalCost() {
+        var checkInDate = document.getElementById("check_in_date").value;
+        var checkOutDate = document.getElementById("check_out_date").value;
+
+        if (checkInDate && checkOutDate) {
+            var startDate = new Date(checkInDate);
+            var endDate = new Date(checkOutDate);
+
+            // Calculate the duration in days
+            var timeDifference = endDate - startDate;
+            var duration = timeDifference / (1000 * 3600 * 24); // Convert ms to days
+
+            if (duration < 1) {
+                duration = 1; // Set to 1 day if duration is 0 or negative
+            }
+
+            // Update the total cost based on the room price
+            var totalCost = roomPrice * duration;
+
+            // Display the total cost
+            document.getElementById("total_cost").innerText = totalCost.toFixed(2);
+        }
+    }
+
+    // Booking Form submission
+    document.getElementById('bookingForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get form values
+        var checkInDate = document.getElementById('check_in_date').value;
+        var checkOutDate = document.getElementById('check_out_date').value;
+        var totalCost = document.getElementById('total_cost').innerText;
+
+        // Prepare email parameters
+        var templateParams = {
+            to_email: "{{ user.email }}", // Send to logged-in user's email
+            room_name: "{{ room.name }}",
+            check_in_date: checkInDate,
+            check_out_date: checkOutDate,
+            total_cost: totalCost
+        };
+
+        // Send email with EmailJS
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            .then(function (response) {
+                console.log('Email sent successfully:', response);
+            }, function (error) {
+                console.log('Error sending email:', error);
+            });
+
+        // can  submit the form or redirect as needed
+        alert("Booking confirmed and confirmation email sent!");
+
+    })
+</script>
+{% endblock %}

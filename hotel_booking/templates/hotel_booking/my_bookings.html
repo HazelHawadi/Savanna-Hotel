@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<div class="container">
+    <h2>My Bookings</h2>
+    <ul>
+        {% for booking in bookings %}
+            <li>{{ booking.room_type }} - {{ booking.check_in_date }} to {{ booking.check_out_date }} ({{ booking.status }})</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

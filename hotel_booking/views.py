@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
+from django.db import models
 from .models import Room, Booking
 from .forms import BookingForm, AddRoomForm
 from django.contrib.auth.forms import UserCreationForm
@@ -14,12 +16,11 @@ from decimal import Decimal
 from .forms_auth import CustomUserCreationForm 
 from hotel_booking import views
 from django.contrib.auth import logout
-from django.contrib.auth import get_user_model
-from .forms import UserUpdateForm
-
+import logging
 
 
 # Create your views here.
+logger = logging.getLogger(__name__)
 
 # Home view for the landing page
 def home(request):
@@ -55,33 +56,79 @@ def room_details(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'room_details.html', {'room': room})
 
+
 @login_required
 def book_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
-    total_cost = None
+    total_cost = None  # Initialize total_cost as None for now
 
     if request.method == 'POST':
+        # Log the POST data for debugging
+        logger.debug(f"POST data received: {request.POST}")
+
         check_in_date = request.POST.get('check_in_date')
         check_out_date = request.POST.get('check_out_date')
-        duration = int((date.fromisoformat(check_out_date) - date.fromisoformat(check_in_date)).days)
-        if duration < 1:
-            duration = 1
 
-        total_cost = Decimal(room.price) * Decimal(duration)
+        # Log the values of the check_in_date and check_out_date
+        logger.debug(f"Check-in Date: {check_in_date}")
+        logger.debug(f"Check-out Date: {check_out_date}")
 
-        booking = Booking.objects.create(
-            room=room,
-            name=request.user.get_full_name(),  # Use user's full name
-            email=request.user.email,           # Use user's email
-            check_in_date=check_in_date,
-            check_out_date=check_out_date,
-            duration=duration,
-            total_cost=total_cost,
-        )
+        # Check if the dates are missing
+        if not check_in_date or not check_out_date:
+            return HttpResponseBadRequest("Check-in and check-out dates are required.")
 
+        try:
+            # Parse check-in and check-out dates safely
+            check_in_date = date.fromisoformat(check_in_date)
+            check_out_date = date.fromisoformat(check_out_date)
+
+            # Calculate the duration of stay
+            duration = (check_out_date - check_in_date).days
+            if duration < 1:
+                duration = 1  # Ensure at least one night
+
+        except ValueError:
+            return HttpResponseBadRequest("Invalid date format. Please use -MM-DDYYYY.")
+
+        try:
+            # Safely parse the price as a Decimal
+            room_price = Decimal(room.price)
+        except (ValueError, InvalidOperation):
+            return HttpResponseBadRequest("Invalid room price.")
+
+        # Calculate total cost
+        total_cost = room_price * Decimal(duration)
+
+        # Create the booking object
+        try:
+            booking = Booking.objects.create(
+                room=room,
+                name=request.user.get_full_name(),  # Use user's full name
+                email=request.user.email,           # Use user's email
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
+                duration=duration,
+                total_cost=total_cost,
+            )
+
+        except Exception as e:
+            return HttpResponseBadRequest(f"Error creating booking: {e}")
+
+        # Redirect to the booking confirmation page
         return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
 
-    return render(request, 'book_room.html', {'room': room})
+    return render(request, 'bookings/book_room.html', {'room': room})
+
+def create_booking(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save() 
+            return redirect('booking_success')  # Redirect after successful booking
+    else:
+        form = BookingForm()
+
+    return render(request, 'create_booking.html', {'form': form})
 
 def booking_confirmation(request, booking_id):
     # Retrieve the booking using the booking_id
@@ -124,7 +171,7 @@ def custom_login(request):
             )
             if user is not None:
                 login(request, user)
-                return redirect("hotel_booking:index")  # Change to your home page view name
+                return redirect("hotel_booking:index")
 
     return render(request, "registration/login.html", {"form": form})
 
@@ -137,32 +184,35 @@ def hotel_booking_view(request):
     return render(request, 'hotel_booking.html')
 
 @login_required
-def profile(request):
-    """Display user profile"""
-    return render(request, "accounts/profile.html", {"user": request.user})
+def booking_edit(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
 
-@login_required
-def edit_profile(request):
-    """Allow users to edit their profile"""
-    if request.method == "POST":
-        form = UserUpdateForm(request.POST, instance=request.user)
+    if request.user != booking.user:
+        messages.error(request, "You are not allowed to edit this booking.")
+        return redirect('booking_list')  # Redirect to booking list
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
             form.save()
-            messages.success(request, "Profile updated successfully.")
-            return redirect("hotel_booking:profile")
+            messages.success(request, "Your booking has been updated!")
+            return redirect('booking_detail', booking_id=booking.id)
     else:
-        form = UserUpdateForm(instance=request.user)
+        form = BookingForm(instance=booking)
 
-    return render(request, "accounts/edit_profile.html", {"form": form})
+    return render(request, 'hotel_booking/booking_form.html', {'form': form})
 
 @login_required
-def delete_account(request):
-    """Allow users to delete their account"""
-    if request.method == "POST":
-        user = request.user
-        logout(request)
-        user.delete()
-        messages.success(request, "Your account has been deleted.")
-        return redirect("hotel_booking:index")
+def booking_delete(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
 
-    return render(request, "accounts/delete_account.html")
+    if request.user != booking.user:
+        messages.error(request, "You are not allowed to delete this booking.")
+        return redirect('booking_list')  # Redirect to booking list
+
+    if request.method == 'POST':
+        booking.delete()
+        messages.success(request, "Your booking has been deleted!")
+        return redirect('booking_list')  # Redirect to booking list
+
+    return render(request, 'hotel_booking/booking_confirm_delete.html', {'booking': booking})

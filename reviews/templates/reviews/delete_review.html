@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2 class="delete-title">Are you sure you want to delete your review for {{ review.room.name }}?</h2>
+
+<form method="post" class="delete-form">
+    {% csrf_token %}
+    <div class="form-actions">
+        <button type="submit" class="submit-button delete-button">Yes, Delete</button>
+    </div>
+</form>
+
+<a href="{% url 'hotel_booking:room_detail' id=review.room.id %}" class="cancel-button">Cancel</a>
+{% endblock %}

@@ -1,38 +1,84 @@
-{% extends 'base_generic.html' %}
-
-{% block content %}
+{% extends 'base_generic.html' %} {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">{{ room.name }}</h1>
+  <h1 class="mb-4">{{ room.name }}</h1>
 
-    <div class="row">
-        <!-- Room Image -->
-        <div class="col-md-6">
-            <img src="{{ room.image.url }}" alt="{{ room.name }}" class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: cover;">
-        </div>
-
-        <!-- Room Details -->
-        <div class="col-md-6">
-            <h3><i class="fas fa-info-circle"></i> Description</h3>
-            <p>{{ room.description }}</p>
-
-            <h3><i class="fas fa-dollar-sign"></i> Price</h3>
-            <p class="text-success fw-bold">${{ room.price }}</p>
-
-            <h3><i class="fas fa-concierge-bell"></i> Utilities</h3>
-            <ul class="list-unstyled">
-                <li><i class="fas fa-wifi text-primary"></i> Free Wi-Fi</li>
-                <li><i class="fas fa-solid fa-dumbbell text-info"></i> Gym</li>
-                <li><i class="fas fa-parking text-info"></i> Parking Spaces</li>
-                <li><i class="fas fa-swimming-pool text-info"></i> Swimming Pool</li>
-                <li><i class="fas fa-concierge-bell text-warning"></i> 24/7 Room Service</li>
-                <li><i class="fas fa-coffee text-success"></i> Complimentary Breakfast</li>
-            </ul>
-        </div>
+  <div class="row">
+    <!-- Room Image -->
+    <div class="col-md-6">
+      <img
+        src="{{ room.image.url }}"
+        alt="{{ room.name }}"
+        class="img-fluid rounded shadow-sm"
+        style="max-height: 400px; object-fit: cover"
+      />
     </div>
 
-    <!-- Book Room Button -->
-    <div class="mt-4">
-        <a href="{% url 'hotel_booking:book_room' room.id %}" class="btn btn-primary">Book This Room</a>
+    <!-- Room Details -->
+    <div class="col-md-6">
+      <h3><i class="fas fa-info-circle"></i> Description</h3>
+      <p>{{ room.description }}</p>
+
+      <h3><i class="fas fa-dollar-sign"></i> Price</h3>
+      <p class="text-success fw-bold">${{ room.price }}</p>
+
+      <h3><i class="fas fa-concierge-bell"></i> Utilities</h3>
+      <ul class="list-unstyled">
+        <li><i class="fas fa-wifi text-primary"></i> Free Wi-Fi</li>
+        <li><i class="fas fa-solid fa-dumbbell text-info"></i> Gym</li>
+        <li><i class="fas fa-parking text-info"></i> Parking Spaces</li>
+        <li><i class="fas fa-swimming-pool text-info"></i> Swimming Pool</li>
+        <li>
+          <i class="fas fa-concierge-bell text-warning"></i> 24/7 Room Service
+        </li>
+        <li>
+          <i class="fas fa-coffee text-success"></i> Complimentary Breakfast
+        </li>
+      </ul>
     </div>
+  </div>
+
+  <!-- Book Room Button -->
+  <div class="mt-4">
+    <a
+      href="{% url 'hotel_booking:book_room' room.id %}"
+      class="btn btn-primary"
+      >Book This Room</a
+    >
+  </div>
+</div>
+<div class="reviews-section mt-5">
+  <h3>Reviews</h3>
+  {% for review in room.reviews.all %}
+  <div class="review-item mb-4 p-3 border rounded">
+    <p class="review-author">
+      <strong>{{ review.user.username }}</strong> -
+      <span class="review-rating">{{ review.rating }} Stars</span>
+    </p>
+    <p class="review-comment">{{ review.comment }}</p>
+
+    {% if request.user == review.user %}
+    <div class="review-actions">
+      <a
+        href="{% url 'reviews:edit_review' review.id %}"
+        class="btn btn-warning btn-sm"
+        >Edit</a
+      >
+      <a
+        href="{% url 'reviews:delete_review' review.id %}"
+        class="btn btn-danger btn-sm"
+        >Delete</a
+      >
+    </div>
+    {% endif %}
+  </div>
+  {% empty %}
+  <p>No reviews yet.</p>
+  {% endfor %} {% if user.is_authenticated %}
+  <a href="{% url 'reviews:add_review' room.id %}" class="btn btn-success"
+    >Leave a Review</a
+  >
+  {% else %}
+  <p><a href="{% url 'hotel_booking:login' %}">Login</a> to leave a review.</p>
+  {% endif %}
 </div>
 {% endblock %}

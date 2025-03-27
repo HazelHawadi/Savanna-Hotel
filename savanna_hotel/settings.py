@@ -19,11 +19,12 @@ ALLOWED_HOSTS = [
     '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
     'savanna-hotel.herokuapp.com',  
     'savanna-hotel-3f742aee818b.herokuapp.com',
+    'savanna-hotel4-485797427d23.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
-    'https://savanna-hotel.herokuapp.com',  # Add your Heroku app domain here
+    'https://savanna-hotel.herokuapp.com',
 ]
 
 # Application definition

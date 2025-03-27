@@ -3,11 +3,10 @@
 <a href="{% url 'booking_create' %}" class="btn btn-primary">New Booking</a>
 <ul>
   {% for booking in bookings %}
-  <p>Room: {{ booking.room }}</p>
-  <p>Check-in: {{ booking.check_in_date }}</p>
-  <p>Check-out: {{ booking.check_out_date }}</p>
-  <p>Guests: {{ booking.guests }}</p>
-  <!-- Added guests field -->
+  <li>Room: {{ booking.room.name }}</li>
+  <li>Check-in: {{ booking.check_in_date }}</li>
+  <li>Check-out: {{ booking.check_out_date }}</li>
+  <li>Guests: {{ booking.guests }}</li>  <!-- Added guests field -->
   <a href="{% url 'edit_booking' booking.id %}">Edit</a>
   <a href="{% url 'delete_booking' booking.id %}">Delete</a>
   {% endfor %}

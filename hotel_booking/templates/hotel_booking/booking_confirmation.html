@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Booking Confirmation</h1>
+    <p><strong>Thank you for your booking, {{ booking.user.username }}!</strong></p>
+
+    <h4>Your Booking Details:</h4>
+    <ul>
+        <li><strong>Room:</strong> {{ booking.room.name }}</li>
+        <li><strong>Check-in Date:</strong> {{ booking.check_in_date }}</li>
+        <li><strong>Check-out Date:</strong> {{ booking.check_out_date }}</li>
+        <li><strong>Guests:</strong> {{booking.guests}} guests</li>
+        <li><strong>Total Cost:</strong> ${{ booking.total_cost }}</li>
+    </ul>
+
+    <p><a href="{% url 'hotel_booking:index' %}">Back to Home</a></p>
+</div>
+{% endblock %}

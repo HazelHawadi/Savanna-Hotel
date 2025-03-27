@@ -34,119 +34,82 @@ def index(request):
 
 @login_required
 def add_room(request):
-    # Only allow staff users (admin or users with the 'can_add_room' permission)
-    if not request.user.has_perm('hotel_booking.add_room'):
-        messages.error(request, 'You do not have permission to add a room.')
-        return redirect('hotel_booking:index')
-    
     if request.method == 'POST':
-        # Handle room creation logic here
-        room = Room(
-            name=request.POST['name'],
-            price=request.POST['price'],
-            description=request.POST['description'],
-        )
-        room.save()
-        messages.success(request, 'Room added successfully!')
-        return redirect('hotel_booking:index')
+        form = RoomForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Room added successfully!")
+            return redirect('hotel_booking:room_list')
+        else:
+            messages.error(request, "Please correct the errors in the form.")
+    else:
+        form = RoomForm()
 
-    return render(request, 'hotel_booking/add_room.html')
+    return render(request, 'hotel_booking/add_room.html', {'form': form})
 
 def room_details(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'room_details.html', {'room': room})
 
 
+def check_room_availability(room, check_in, check_out):
+    # Check if there are any bookings for the room within the date range
+    bookings = Booking.objects.filter(room=room, check_in_date__lt=check_out, check_out_date__gt=check_in)
+    return bookings.exists()
+
+
 @login_required
 def book_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
-    total_cost = None  # Initialize total_cost as None for now
-
+    
     if request.method == 'POST':
-        # Log the POST data for debugging
-        logger.debug(f"POST data received: {request.POST}")
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            # Calculate total cost here
+            check_in = form.cleaned_data['check_in_date']
+            check_out = form.cleaned_data['check_out_date']
+            duration = (check_out - check_in).days
+            total_cost = room.price * duration
 
-        check_in_date = request.POST.get('check_in_date')
-        check_out_date = request.POST.get('check_out_date')
+            # Save the booking with the calculated total cost
+            booking = form.save(commit=False)
+            booking.room = room
+            booking.user = request.user
+            booking.duration = duration  # Save duration
+            booking.total_cost = total_cost  # Save total cost
+            booking.save()
 
-        # Log the values of the check_in_date and check_out_date
-        logger.debug(f"Check-in Date: {check_in_date}")
-        logger.debug(f"Check-out Date: {check_out_date}")
+            messages.success(request, "Booking confirmed!")
+            return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
+        else:
+            messages.error(request, "Please correct the errors in the form.")
+    else:
+        form = BookingForm()
 
-        # Check if the dates are missing
-        if not check_in_date or not check_out_date:
-            return HttpResponseBadRequest("Check-in and check-out dates are required.")
-
-        try:
-            # Parse check-in and check-out dates safely
-            check_in_date = date.fromisoformat(check_in_date)
-            check_out_date = date.fromisoformat(check_out_date)
-
-            # Calculate the duration of stay
-            duration = (check_out_date - check_in_date).days
-            if duration < 1:
-                duration = 1  # Ensure at least one night
-
-        except ValueError:
-            return HttpResponseBadRequest("Invalid date format. Please use -MM-DDYYYY.")
-
-        try:
-            # Safely parse the price as a Decimal
-            room_price = Decimal(room.price)
-        except (ValueError, InvalidOperation):
-            return HttpResponseBadRequest("Invalid room price.")
-
-        # Calculate total cost
-        total_cost = room_price * Decimal(duration)
-
-        # Create the booking object
-        try:
-            booking = Booking.objects.create(
-                room=room,
-                name=request.user.get_full_name(),  # Use user's full name
-                email=request.user.email,           # Use user's email
-                check_in_date=check_in_date,
-                check_out_date=check_out_date,
-                duration=duration,
-                total_cost=total_cost,
-            )
-
-        except Exception as e:
-            return HttpResponseBadRequest(f"Error creating booking: {e}")
-
-        # Redirect to the booking confirmation page
-        return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
-
-    return render(request, 'bookings/book_room.html', {'room': room})
+    return render(request, 'hotel_booking/book_room.html', {'form': form, 'room': room})
 
 def create_booking(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save() 
-            return redirect('booking_success')  # Redirect after successful booking
+            booking = form.save(commit=False)
+            booking.user = request.user
+            booking.save()
+            return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
     else:
         form = BookingForm()
 
-    return render(request, 'create_booking.html', {'form': form})
+    return render(request, 'hotel_booking/create_booking.html', {'form': form})
 
 def booking_confirmation(request, booking_id):
-    # Retrieve the booking using the booking_id
-    booking = get_object_or_404(Booking, id=booking_id)
-
-    # Pass the booking object to the template
-    return render(request, 'booking_confirmation.html', {
-        'booking': booking,
-        'room_name': booking.room.name,
-        'check_in_date': booking.check_in_date,
-        'check_out_date': booking.check_out_date,
-        'total_cost': booking.total_cost,
-        'user_name': booking.name,
-        'user_email': booking.email,
-    })
+    try:
+        booking = get_object_or_404(Booking, id=booking_id)
+        return render(request, 'hotel_booking/booking_confirmation.html', {'booking': booking})
+    except Booking.DoesNotExist:
+        messages.error(request, "Booking not found.")
+        return redirect('hotel_booking:index')
 
 # Register view
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

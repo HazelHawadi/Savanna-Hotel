@@ -1,11 +1,19 @@
-{% extends "base_generic.html" %}
+{% extends "base_generic.html" %} {% block content %} {% load socialaccount %}
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <div>
+    <label for="remember_me">Remember Me</label>
+    <input type="checkbox" name="remember_me" id="remember_me" />
+  </div>
+  <button  class="btn btn-primary" type="submit">Login</button>
+</form>
 
-{% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-  </form>
-  <p>Don't have an account? <a href="{% url 'hotel_booking:register' %}">Sign up</a></p>
+<!-- Forgot Password Link -->
+<p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+
+<!-- Facebook Login Button -->
+<a href="{% provider_login_url 'facebook' %}"
+  >Login with Facebook</a
+>
 {% endblock %}

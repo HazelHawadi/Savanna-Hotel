@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('hotel_booking.urls')),
     path('accounts/', include('django.contrib.auth.urls')),  # Django's built-in auth URLs for login/logout
     path("accounts/", include("accounts.urls")),
+    path('accounts/', include('allauth.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path("reviews/", include("reviews.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Serve static files during development

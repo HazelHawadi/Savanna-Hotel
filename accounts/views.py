@@ -15,7 +15,7 @@ def register_view(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful! Welcome.")
-            return redirect("home")  # Change this to your homepage or dashboard
+            return redirect("home")
         else:
             messages.error(request, "Registration failed. Please correct the errors.")
     else:
@@ -23,8 +23,13 @@ def register_view(request):
 
     return render(request, "accounts/register.html", {"form": form})
 
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
 def login_view(request):
-    """Handle user login"""
+    """Handle user login with 'Remember Me' functionality"""
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -34,7 +39,14 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome back, {user.username}!")
-                return redirect("home")  # Redirect to homepage
+
+                # Check if 'Remember Me' was checked
+                if request.POST.get('remember_me'):
+                    request.session.set_expiry(365 * 24 * 60 * 60)
+                else:
+                    request.session.set_expiry(0)
+
+                return redirect("home")
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -42,7 +54,7 @@ def login_view(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, "accounts/login.html", {"form": form})
+    return render(request, "registration/login.html", {"form": form})
 
 def logout_view(request):
     logout(request)

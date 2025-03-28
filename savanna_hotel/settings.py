@@ -1,4 +1,5 @@
 import os
+import env
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,7 +19,6 @@ ALLOWED_HOSTS = [
     'localhost',
     '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
     'savanna-hotel.herokuapp.com',  
-    'savanna-hotel-3f742aee818b.herokuapp.com',
     'savanna-hotel4-485797427d23.herokuapp.com',
 ]
 
@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     #Other
     'accounts',
     'reviews',
+    'django.contrib.sites',  # Required by allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook', # Facebook provider
     
 ]
 
@@ -93,8 +98,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
 ]
+
+SOCIAL_AUTH_FACEBOOK_KEY = env.SOCIAL_AUTH_FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = env.SOCIAL_AUTH_FACEBOOK_SECRET
 
 
 # Internationalization
@@ -111,11 +120,13 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # Directory for collected static files
 # WhiteNoise settings for serving static files
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+SITE_ID = 1
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Login settings
-LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = "/profile/"
 LOGOUT_REDIRECT_URL = "/"
 

@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
+from accounts.views import login_view
 from .views import custom_login
 
 app_name = 'hotel_booking'
@@ -15,8 +16,7 @@ urlpatterns = [
     path('book/<int:room_id>/', views.book_room, name='book_room'),
     path('create_booking/', views.create_booking, name='create_booking'),
     path('booking-confirmation/<int:booking_id>/', views.booking_confirmation, name='booking_confirmation'),
-    path('accounts/login/', views.custom_login, name='login'),
-    path("login/", custom_login, name="login"),
+    path('accounts/login/', login_view, name='login'),
     path('register/', views.register, name='register'),  # Register URL
     path('logout/', views.custom_logout, name='logout'),
     path('hotel-booking/', views.hotel_booking_view, name='hotel_booking'),

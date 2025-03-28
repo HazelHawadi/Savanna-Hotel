@@ -1,2 +1,2 @@
-web: gunicorn savanna_hotel.wsgi
+web: gunicorn savanna_hotel.wsgi --log-file -
 

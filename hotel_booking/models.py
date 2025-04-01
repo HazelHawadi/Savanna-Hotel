@@ -42,13 +42,36 @@ class Room(models.Model):
 class Booking(models.Model):
     name = models.CharField(max_length=255, default="Unknown User")
     email = models.EmailField(default='example@example.com')
+    id = models.AutoField(primary_key=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     check_in_date = models.DateField()
     check_out_date = models.DateField()
     guests = models.IntegerField(default=1)
     duration = models.IntegerField(default=1)
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    total_cost = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2, 
+        default=Decimal('0.00'),
+        null=False,
+        blank=False
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    CONFIRMED = 'Confirmed'
+    PENDING = 'Pending'
+    CANCELLED = 'Cancelled'
+
+    STATUS_CHOICES = [
+        (CONFIRMED, 'Confirmed'),
+        (PENDING, 'Pending'),
+        (CANCELLED, 'Cancelled'),
+    ]
+    
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=PENDING
+    )
 
     def __str__(self):
         return f"Booking for {self.room.name} by {self.user.username if self.user else 'Guest'}"
@@ -67,3 +90,4 @@ class BookingForm(forms.ModelForm):
             raise forms.ValidationError("Check-out date must be after check-in date.")
         
         return cleaned_data
+    

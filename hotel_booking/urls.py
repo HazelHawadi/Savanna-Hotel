@@ -20,9 +20,10 @@ urlpatterns = [
     path('register/', views.register, name='register'),  # Register URL
     path('logout/', views.custom_logout, name='logout'),
     path('hotel-booking/', views.hotel_booking_view, name='hotel_booking'),
+    path('my-bookings/', views.my_bookings, name='my_bookings'),
     path('room/<int:id>/', views.room_details, name='room_detail'),
-    path('booking/edit/<int:booking_id>/', views.booking_edit, name='booking_edit'),
-    path('booking/delete/<int:booking_id>/', views.booking_delete, name='booking_delete'),
+    path('update/<int:id>/', views.update_booking, name='update_booking'),
+    path('delete/<int:id>/', views.delete_booking, name='delete_booking'),
     
 ] 
 

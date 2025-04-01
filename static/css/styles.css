@@ -11,19 +11,19 @@
 
 body {
     background-color: #0a0a0a;
-    /* Black wallpaper fallback */
     background-image: url('/static/images/wallpaper1.jpg');
-    /* Set the background image */
     background-attachment: fixed;
-    /* This makes the background image fixed */
     background-repeat: no-repeat;
     background-size: cover;
     color: #f8f9fa;
-    /* Light text for contrast */
     font-family: 'Lora', serif;
-    /* Elegant font */
+    margin-top: 80px;
 }
 
+.main-content {
+    min-height: calc(100vh - 50px);
+    padding-bottom: 50px;
+}
 
 .container h5 {
     padding-top: 20px;
@@ -158,11 +158,34 @@ html {
     font-size: 1.5rem;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Ensure buttons have consistent styles */
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 /* Footer Styling */
 footer {
-    background-color: #343a40;
-    color: #f8f9fa;
-    padding: 40px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 20px;
     text-align: center;
 }
 
@@ -206,6 +229,7 @@ a:hover {
 /* Miscellaneous */
 .container {
     margin-top: 50px;
+    padding: 20px;
 }
 
 
@@ -319,7 +343,8 @@ a:hover {
 .review-title {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #b08d2f text-align: center;
+    color: #b08d2f;
+    text-align: center;
 }
 
 /* Form Container Styling */
@@ -330,6 +355,10 @@ a:hover {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    background-color: #0a0a0a;
 }
 
 /* Form Group Styling */

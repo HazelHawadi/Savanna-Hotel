@@ -4,6 +4,7 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.db import models
 from .models import Room, Booking
+from hotel_booking.models import Booking
 from .forms import BookingForm, AddRoomForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -17,6 +18,8 @@ from .forms_auth import CustomUserCreationForm
 from hotel_booking import views
 from django.contrib.auth import logout
 import logging
+from .forms import BookingForm
+from .forms import BookingUpdateForm
 
 
 # Create your views here.
@@ -115,10 +118,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Log in the user after registration
-            return redirect('hotel_booking:index')  # Redirect to home page after successful registration
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            messages.success(request, "Registration successful! Welcome.")
+            return redirect('hotel_booking:index')
     else:
         form = UserCreationForm()
+
     return render(request, 'accounts/register.html', {'form': form})
 
 # Custom login view
@@ -146,36 +151,44 @@ def custom_logout(request):
 def hotel_booking_view(request):
     return render(request, 'hotel_booking.html')
 
+
 @login_required
-def booking_edit(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
-
-    if request.user != booking.user:
-        messages.error(request, "You are not allowed to edit this booking.")
-        return redirect('booking_list')  # Redirect to booking list
-
+def update_booking(request, id):
+    # Retrieve the booking object by ID
+    booking = get_object_or_404(Booking, id=id)
+    
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=booking)
+        form = BookingUpdateForm(request.POST, instance=booking)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Your booking has been updated!")
-            return redirect('booking_detail', booking_id=booking.id)
-    else:
-        form = BookingForm(instance=booking)
+            check_in = form.cleaned_data['check_in_date']
+            check_out = form.cleaned_data['check_out_date']
+            duration = (check_out - check_in).days
+            total_cost = booking.room.price * duration
 
-    return render(request, 'hotel_booking/booking_form.html', {'form': form})
+            booking = form.save(commit=False)
+            booking.total_cost = total_cost
+            booking.save()
+
+            return redirect('accounts:my_bookings')
+    else:
+        form = BookingUpdateForm(instance=booking)
+
+    return render(request, 'hotel_booking/booking_form.html', {'form': form, 'booking': booking})
 
 @login_required
-def booking_delete(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
+def my_bookings(request):
+    if request.user.is_authenticated:
+        bookings = Booking.objects.filter(user=request.user)
+    else:
+        bookings = []
 
-    if request.user != booking.user:
-        messages.error(request, "You are not allowed to delete this booking.")
-        return redirect('booking_list')  # Redirect to booking list
+    return render(request, 'accounts/my_bookings.html', {'bookings': bookings})
 
+def delete_booking(request, id):
+    booking = get_object_or_404(Booking, id=id)
+    
     if request.method == 'POST':
         booking.delete()
-        messages.success(request, "Your booking has been deleted!")
-        return redirect('booking_list')  # Redirect to booking list
-
-    return render(request, 'hotel_booking/booking_confirm_delete.html', {'booking': booking})
+        return redirect('accounts:my_bookings')
+    
+    return render(request, 'hotel_booking/confirm_delete.html', {'booking': booking})

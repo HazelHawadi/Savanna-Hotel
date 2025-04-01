@@ -1,11 +1,14 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from hotel_booking.models import Booking
+from .forms import UserDeleteForm, UserUpdateForm
+from hotel_booking.models import Booking
+
 
 def register_view(request):
     """Handle user registration"""
@@ -22,11 +25,6 @@ def register_view(request):
         form = UserCreationForm()
 
     return render(request, "accounts/register.html", {"form": form})
-
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
-from django.contrib import messages
 
 def login_view(request):
     """Handle user login with 'Remember Me' functionality"""
@@ -59,3 +57,13 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("hotel_booking:index")
+
+
+def my_bookings(request):
+    bookings = Booking.objects.filter(user=request.user)
+
+    for booking in bookings:
+        if booking.total_cost is None:
+            booking.total_cost = Decimal('0.00')
+    
+    return render(request, 'accounts/my_bookings.html', {'bookings': bookings})

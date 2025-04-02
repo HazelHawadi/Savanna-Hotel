@@ -83,10 +83,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'savanna_hotel.wsgi.application'
 
 # Database
-SECRET_KEY = os.getenv("SECRET_KEY")
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
-}
+SECRET_KEY = os.getenv('SECRET_KEY')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 # Password validation

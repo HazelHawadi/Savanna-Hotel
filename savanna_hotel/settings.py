@@ -18,12 +18,12 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
-    'savanna-hotel4.herokuapp.com',
+    'savanna-hotel4-485797427d23.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
-    'https://savanna-hotel4.herokuapp.com',
+    'https://savanna-hotel4-485797427d23.herokuapp.com',
 ]
 
 # Application definition

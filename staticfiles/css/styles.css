@@ -10,13 +10,14 @@
 
 
 body {
-    background-color: #0a0a0a; /* Black wallpaper fallback */
-    background-image: url('/static/images/wallpaper1.jpg');  /* Set the background image */
-    background-attachment: fixed; /* This makes the background image fixed */
+    background-color: #0a0a0a;
+    background-image: url('/static/images/wallpaper1.jpg');
+    background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
-    color: #f8f9fa; /* Light text for contrast */
-    font-family: 'Lora', serif; /* Elegant font */
+    color: #f8f9fa;
+    font-family: 'Lora', serif;
+    margin-top: 80px;
 }
 
 .main-content {
@@ -30,11 +31,12 @@ body {
     font-style: italic;
 
 }
-.container h1{
+
+.container h1 {
     padding-top: 110px;
 }
 
-.container h2{
+.container h2 {
     padding-top: 110px;
 }
 
@@ -44,51 +46,64 @@ html {
 
 /* Navbar Styling */
 .navbar {
-    background-color: rgba(0, 0, 0, 0.6); 
-    border-bottom: 2px solid #d4af37; /* Gold border */
+    background-color: rgba(0, 0, 0, 0.6);
+    border-bottom: 2px solid #d4af37;
+    /* Gold border */
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* Ensures navbar stays on top */
+    z-index: 1000;
+    /* Ensures navbar stays on top */
 }
 
 .navbar a {
-    color: #fff; /* Makes the navbar links white */
-    padding: 12px 20px; /* Adds space around the links */
+    color: #fff;
+    /* Makes the navbar links white */
+    padding: 12px 20px;
+    /* Adds space around the links */
 }
 
 .navbar a:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
-    color: #ffd700; /* Fancy golden color on hover */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Light hover effect */
+    color: #ffd700;
+    /* Fancy golden color on hover */
 }
 
 .navbar-nav {
     display: flex;
     justify-content: flex-start;
-    gap: 20px; /* Adjust the gap between links */
+    gap: 20px;
+    /* Adjust the gap between links */
 }
 
 .navbar-brand {
-    color: #010e47 !important; 
+    color: #010e47 !important;
     font-family: 'Lora', serif;
     font-size: 3rem;
 }
 
 .navbar-nav .nav-link {
-    color: #010e47 !important; /* Light color for links */
+    color: #010e47 !important;
+    /* Light color for links */
     font-size: 1.3rem;
-    padding: 10px 20px; /* Add space between the links */
-    margin-right: 10px; /* Space between links */
-    transition: all 0.3s ease; /* Smooth transition effect */
+    padding: 10px 20px;
+    /* Add space between the links */
+    margin-right: 10px;
+    /* Space between links */
+    transition: all 0.3s ease;
+    /* Smooth transition effect */
 }
 
 .navbar-nav .nav-link:hover {
-    color: #d4af37 !important; /* Hover effect in gold */
+    color: #d4af37 !important;
+    /* Hover effect in gold */
 }
 
 .navbar-nav {
-    margin-left: -20px; /* Move the navbar items slightly to the left */
+    margin-left: -20px;
+    /* Move the navbar items slightly to the left */
 }
 
 /* Buttons */
@@ -100,30 +115,37 @@ html {
 }
 
 .btn:hover {
-    background-color: #b08d2f; /* Slightly darker gold */
+    background-color: #b08d2f;
+    /* Slightly darker gold */
     border-color: #b08d2f;
 }
 
 
 /* Card Styling */
 .card {
-    background-color: #2c2f33; /* Dark card background */
+    background-color: #2c2f33;
+    /* Dark card background */
     border: 1px solid #444;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for cards */
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
 }
 
 .card-img-top {
-    width: 100%; /* Makes sure the image fills the card container */
-    height: 200px; /* Set a fixed height to make all images the same size */
-    object-fit: cover; /* Ensures the image covers the space without distorting */
+    width: 100%;
+    /* Makes sure the image fills the card container */
+    height: 200px;
+    /* Set a fixed height to make all images the same size */
+    object-fit: cover;
+    /* Ensures the image covers the space without distorting */
 }
 
 .container.mt-4 {
-    margin-bottom: 50px; /* Adjust this value to create space between the last row and the footer */
+    margin-bottom: 50px;
+    /* Adjust this value to create space between the last row and the footer */
 }
 
 .card-body {
@@ -131,7 +153,8 @@ html {
 }
 
 .card-title {
-    color: #d4af37; /* Gold title */
+    color: #d4af37;
+    /* Gold title */
     font-size: 1.5rem;
 }
 
@@ -165,7 +188,6 @@ footer {
     padding: 20px;
     text-align: center;
 }
-
 
 footer h4 {
     font-family: 'Merriweather', serif;
@@ -207,39 +229,266 @@ a:hover {
 /* Miscellaneous */
 .container {
     margin-top: 50px;
+    padding: 20px;
 }
 
-/* For screens smaller than 768px (Tablets and phones) */
-@media (max-width: 768px) {
-    body {
-        font-size: 14px;
+
+/* General Styling for the Reviews Section */
+.reviews-section {
+    margin-top: 40px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.reviews-section h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.review-item {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.review-author {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.review-rating {
+    font-size: 1rem;
+    color: #f39c12;
+}
+
+.review-comment {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.review-actions {
+    margin-top: 15px;
+}
+
+.review-actions a {
+    margin-right: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.review-actions .btn {
+    padding: 5px 12px;
+}
+
+.review-actions .btn-warning {
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+.review-actions .btn-warning:hover {
+    background-color: #e67e22;
+    border-color: #e67e22;
+}
+
+.review-actions .btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.review-actions .btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.review-actions .btn-sm {
+    font-size: 0.9rem;
+    padding: 4px 10px;
+}
+
+/* No reviews message */
+.reviews-section p {
+    font-size: 1.1rem;
+    color: #888;
+}
+
+/* Styling for Review Submission Button */
+.reviews-section .btn-success {
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.reviews-section .btn-success:hover {
+    background-color: #218838;
+}
+
+
+/* Review Page Title */
+.review-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #b08d2f;
+    text-align: center;
+}
+
+/* Form Container Styling */
+.review-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    background-color: #0a0a0a;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Paragraph Styling inside the Form */
+.review-form p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Button Styling */
+.submit-button,
+.cancel-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Submit Button Styling */
+.submit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Cancel Button Styling */
+.cancel-button {
+    background-color: #f8f9fa;
+    color: #007bff;
+    border: 1px solid #007bff;
+    margin-left: 10px;
+}
+
+.cancel-button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.add-review-form {
+    background-color: #f4f4f4;
+}
+
+.edit-review-form {
+    background-color: #f9f9f9;
+}
+
+.delete-review-form {
+    background-color: #fff5f5;
+    border: 1px solid #ffcccc;
+}
+
+/* Buttons specific to delete review */
+.delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    font-size: 1rem;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}
+
+
+div#map {min-height: 360px;}
+
+/* For Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .review-title {
+        font-size: 1.25rem;
+        /* Make the title even smaller */
+        margin-bottom: 1rem;
     }
 
-    .navbar {
-        font-size: 14px;
+    .review-form {
+        padding: 10px;
+        max-width: 95%;
+        /* Form takes up more of the screen on mobile */
     }
 
-    .navbar-nav .nav-link {
-        padding: 8px 10px;
+    .form-group {
+        margin-bottom: 0.5rem;
     }
 
-    .card {
-        margin-bottom: 20px;
+    .submit-button,
+    .cancel-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        /* Slightly smaller buttons on mobile */
     }
 
-    footer {
-        padding: 20px;
+    .review-form p {
+        font-size: 0.85rem;
+        /* Smaller text for mobile */
     }
 
-    .container {
-        padding: 0 15px; /* Add some padding for smaller screens */
-    }
+    .reviews-section h3 {
+        font-size: 1.5rem;
+      }
+    
+      .review-item {
+        padding: 12px;
+      }
+    
+      .review-actions .btn-sm {
+        font-size: 0.8rem;
+        padding: 3px 8px;
+      }
 }
 
 /* For screens smaller than 576px (Phones) */
 @media (max-width: 576px) {
-    h1, h2, h3, h4 {
-        font-size: 1.5rem; /* Smaller headers for phones */
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-size: 1.5rem;
+        /* Smaller headers for phones */
     }
 
     .navbar {
@@ -267,19 +516,114 @@ a:hover {
         margin: 0 10px;
     }
 
-    .container h1{
+    .container h1 {
         padding-top: 100px;
     }
 
-    .container h2{
+    .container h2 {
         padding-top: 130px;
+    }
+}
+
+/* For screens smaller than 768px (Tablets and phones) */
+@media (max-width: 768px) {
+    .reviews-section {
+        padding: 15px;
+    }
+
+    .review-item {
+        padding: 15px;
+    }
+
+    .review-author {
+        font-size: 1rem;
+    }
+
+    .review-comment {
+        font-size: 0.9rem;
+    }
+
+    .review-actions a {
+        font-size: 0.9rem;
+    }
+
+    .reviews-section {
+        padding: 15px;
+    }
+
+    .review-item {
+        padding: 15px;
+    }
+
+    .review-author {
+        font-size: 1rem;
+    }
+
+    .review-comment {
+        font-size: 0.9rem;
+    }
+
+    .review-actions a {
+        font-size: 0.9rem;
+    }
+
+    .review-title {
+        font-size: 1.5rem;
+        /* Slightly smaller title */
+    }
+
+    .review-form {
+        padding: 15px;
+        max-width: 90%;
+        /* Makes the form take up more of the screen */
+    }
+
+    .form-group {
+        margin-bottom: 0.8rem;
+    }
+
+    .submit-button,
+    .cancel-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+
+    .review-form p {
+        font-size: 0.9rem;
+        /* Slightly smaller form text */
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    .navbar {
+        font-size: 14px;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 8px 10px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    footer {
+        padding: 20px;
+    }
+
+    .container {
+        padding: 0 15px;
+        /* Add some padding for smaller screens */
     }
 }
 
 /* For larger screens (Desktop and large tablets) */
 @media (min-width: 992px) {
     .container {
-        max-width: 1200px; /* Wider containers for larger screens */
+        max-width: 1200px;
+        /* Wider containers for larger screens */
     }
 
     .card {
@@ -288,5 +632,19 @@ a:hover {
 
     footer {
         padding: 40px;
+    }
+}
+
+/* For Very Large Screens (min-width: 1200px) */
+@media (min-width: 1200px) {
+    .review-form {
+        max-width: 600px;
+        /* Wider form on large screens */
+    }
+
+    .submit-button,
+    .cancel-button {
+        font-size: 1.2rem;
+        /* Larger buttons on very large screens */
     }
 }

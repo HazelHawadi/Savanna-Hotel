@@ -100,6 +100,11 @@ SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
 DEBUG = os.getenv('DEBUG') == 'True'
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+    )
+}
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

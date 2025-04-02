@@ -3,12 +3,7 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4">Welcome to Savanna Hotel</h1>
-    <h5>Nestled in the heart of nature's beauty, Savanna Hotel offers an unparalleled escape into a world of
-        sophistication and serenity. Our exquisite rooms, world-class amenities, and personalized service are designed
-        to provide a truly unforgettable experience. Whether you're here for a relaxing retreat or an extraordinary
-        adventure, Savanna Hotel promises a stay filled with luxury, style, and comfort. Come and indulge in the
-        ultimate hotel experience, where every detail is crafted with elegance and your satisfaction is our top
-        priority.</h2>
+    <h5>Nestled in the heart of nature's beauty, Savanna Hotel offers an unparalleled escape into a world of sophistication and serenity. Our exquisite rooms, world-class amenities, and personalized service are designed to provide a truly unforgettable experience. Whether you're here for a relaxing retreat or an extraordinary adventure, Savanna Hotel promises a stay filled with luxury, style, and comfort. Come and indulge in the ultimate hotel experience, where every detail is crafted with elegance and your satisfaction is our top priority.</h2>
     <p class="lead">Feel Free To See What We Have For You..</p>
 
     <div class="row">
@@ -29,5 +24,29 @@
         </div>
         {% endfor %}
     </div>
+
+    <div id="map" style="height: 400px; width: 100%;"></div>
 </div>
+
 {% endblock %}
+
+<!-- Google Maps Script -->
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo&callback=initMap&libraries=places,geometry&v=beta"></script>
+
+<!-- Google Maps initialization -->
+<script>
+  function initMap() {
+    // Create a map object centered around Tralee, Ireland
+    var map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 52.27128982543945, lng: -9.70141315460205 },  // Tralee coordinates
+      zoom: 14
+    });
+
+    // Place a marker on the map
+    var marker = new google.maps.Marker({
+      position: { lat: 52.27128982543945, lng: -9.70141315460205 },
+      map: map,
+      title: "Savanna Hotel Location"
+    });
+  }
+</script>

@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 import env
 from pathlib import Path
 
@@ -18,13 +19,12 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
-    'savanna-hotel.herokuapp.com',  
     'savanna-hotel4-485797427d23.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
-    'https://savanna-hotel.herokuapp.com',
+    'https://savanna-hotel4.herokuapp.com',
 ]
 
 # Application definition
@@ -130,6 +130,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = "/profile/"
 LOGOUT_REDIRECT_URL = "/"
 
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 #Stripe
 STRIPE_CURRENCY = 'eur'

@@ -434,6 +434,8 @@ a:hover {
 }
 
 
+div#map {min-height: 360px;}
+
 /* For Mobile Devices (max-width: 480px) */
 @media (max-width: 480px) {
     .review-title {

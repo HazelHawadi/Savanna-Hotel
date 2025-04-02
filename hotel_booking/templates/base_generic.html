@@ -73,7 +73,7 @@
             <!-- Logout form that sends POST request -->
             <form action="{% url 'hotel_booking:logout' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="nav-link btn btn-link">
+              <button type="submit" class="nav-link">
                 Logout
               </button>
             </form>

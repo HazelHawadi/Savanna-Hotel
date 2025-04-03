@@ -1,52 +1,64 @@
-{% extends 'base_generic.html' %}
-
+{% extends 'base_generic.html' %} 
+{% load static %}
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Welcome to Savanna Hotel</h1>
-    <h5>Nestled in the heart of nature's beauty, Savanna Hotel offers an unparalleled escape into a world of sophistication and serenity. Our exquisite rooms, world-class amenities, and personalized service are designed to provide a truly unforgettable experience. Whether you're here for a relaxing retreat or an extraordinary adventure, Savanna Hotel promises a stay filled with luxury, style, and comfort. Come and indulge in the ultimate hotel experience, where every detail is crafted with elegance and your satisfaction is our top priority.</h2>
-    <p class="lead">Feel Free To See What We Have For You..</p>
+  <h1 class="mb-4">Welcome to Savanna Hotel</h1>
+  <h5>
+    Nestled in the heart of nature's beauty, Savanna Hotel offers an
+    unparalleled escape into a world of sophistication and serenity. Our
+    exquisite rooms, world-class amenities, and personalized service are
+    designed to provide a truly unforgettable experience. Whether you're here
+    for a relaxing retreat or an extraordinary adventure, Savanna Hotel promises
+    a stay filled with luxury, style, and comfort. Come and indulge in the
+    ultimate hotel experience, where every detail is crafted with elegance and
+    your satisfaction is our top priority.
+  </h5>
+  <p class="lead">Feel Free To See What We Have For You..</p>
 
-    <div class="row">
-        {% for room in rooms %}
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <!-- Room image -->
-                <img src="{{ room.image.url }}" alt="{{ room.name }}" class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">{{ room.name }}</h5>
-                    <p class="card-text">{{ room.description|truncatewords:15 }}</p>
-                    <p class="text-success"><strong>${{ room.price }}</strong> per night</p>
-                    <!-- Buttons to view details or book -->
-                    <a href="{% url 'hotel_booking:room_details' room.id %}" class="btn btn-info mt-2">View Details</a>
-                    <a href="{% url 'hotel_booking:book_room' room.id %}" class="btn btn-primary">Book Now</a>
-                </div>
-            </div>
+  <div class="row">
+    {% for room in rooms %}
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <!-- Room image -->
+        <img
+          src="{{ room.image.url }}"
+          alt="{{ room.name }}"
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ room.name }}</h5>
+          <p class="card-text">{{ room.description|truncatewords:15 }}</p>
+          <p class="text-success">
+            <strong>${{ room.price }}</strong> per night
+          </p>
+          <!-- Buttons to view details or book -->
+          <a
+            href="{% url 'hotel_booking:room_details' room.id %}"
+            class="btn btn-info mt-2"
+            >View Details</a
+          >
+          <a
+            href="{% url 'hotel_booking:book_room' room.id %}"
+            class="btn btn-primary"
+            >Book Now</a
+          >
         </div>
-        {% endfor %}
+      </div>
     </div>
+    {% endfor %}
+  </div>
 
-    <div id="map" style="height: 400px; width: 100%;"></div>
+  <div id="map" style="height: 400px; width: 100%"></div>
 </div>
+
 
 {% endblock %}
 
-<!-- Google Maps Script -->
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo&callback=initMap&libraries=places,geometry&v=beta"></script>
-
-<!-- Google Maps initialization -->
-<script>
-  function initMap() {
-    // Create a map object centered around Tralee, Ireland
-    var map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 52.27128982543945, lng: -9.70141315460205 },  // Tralee coordinates
-      zoom: 14
-    });
-
-    // Place a marker on the map
-    var marker = new google.maps.Marker({
-      position: { lat: 52.27128982543945, lng: -9.70141315460205 },
-      map: map,
-      title: "Savanna Hotel Location"
-    });
-  }
-</script>
+{% block extra_scripts %}
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo&callback=initMap"
+  async
+  defer
+></script>
+<script src="{% static 'js/maps.js' %}"></script>
+{% endblock %}

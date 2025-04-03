@@ -3,128 +3,74 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <!-- Bootstrap 5.3.3 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <title>{% block title %}Savanna Hotel{% endblock %}</title>
 
-    <!--link to css file-->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 
-    <script
-      type="text/javascript"
-      src="https://cdn.emailjs.com/dist/email.min.js"
-    ></script>
+    <!-- Google Maps & Marker Clusterer -->
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
   </head>
 
   <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Savanna Hotel</a>
-      <!-- Navbar toggle button for smaller screens -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           {% if user.is_authenticated %}
-          <li class="nav-item">
-            <span class="nav-link">Welcome, {{ user.username }}!</span>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'hotel_booking:index' %}">Home</a>
-          </li>
-          <!-- Profile Dropdown -->
+          <li class="nav-item"><span class="nav-link">Welcome, {{ user.username }}!</span></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'hotel_booking:index' %}">Home</a></li>
           <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Profile
-            </a>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <!-- Link to bookings (My Bookings page) -->
-              <li>
-                <a class="dropdown-item" href="{% url 'accounts:my_bookings' %}"
-                  >My Bookings</a
-                >
-              </li>
+              <li><a class="dropdown-item" href="{% url 'accounts:my_bookings' %}">My Bookings</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a></li>
           <li>
-            <!-- Logout form that sends POST request -->
             <form action="{% url 'hotel_booking:logout' %}" method="post">
               {% csrf_token %}
               <button type="submit" class="nav-link">Logout</button>
             </form>
           </li>
           {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'hotel_booking:login' %}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'hotel_booking:register' %}"
-              >Register</a
-            >
-          </li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'hotel_booking:login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'hotel_booking:register' %}">Register</a></li>
           {% endif %}
         </ul>
       </div>
     </nav>
 
+    <!-- Flash Messages -->
     <div class="container">
       <div class="row">
         <div class="col-md-8 offset-md-2">
           {% for message in messages %}
-          <div
-            class="alert {{ message.tags }} alert-dismissible fade show"
-            id="msg"
-            role="alert"
-          >
+          <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
             {{ message | safe }}
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           {% endfor %}
         </div>
       </div>
     </div>
 
-    <!-- Main content of the page -->
-    <div class="container mt-4">{% block content %} {% endblock %}</div>
+    <!-- Main Content -->
+    <div class="container mt-4">{% block content %}{% endblock %}</div>
 
     <!-- Footer -->
     <footer>
@@ -135,72 +81,15 @@
           <p>Phone: +353 456 7890</p>
           <p>Address: 542 Savanna St, Tralee, Ireland</p>
         </div>
-        <div class="footer-subscribe">
-          <h4>Stay Updated</h4>
-          <form action="/subscribe" method="POST">
-            {% csrf_token %}
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              required
-            />
-            <button type="submit">Subscribe</button>
-          </form>
-        </div>
-        <div class="footer-social">
-          <a
-            href="https://youtube.com/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Go to our Youtube page (opens in a new tab)"
-          >
-            <i class="fa-brands fa-square-youtube"></i>
-          </a>
-          <a
-            href="https://www.facebook.com/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Go to our Facebook page (opens in a new tab)"
-          >
-            <i class="fa-brands fa-square-facebook"></i>
-          </a>
-          <a
-            href="https://instagram.com/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Go to our Instagram page (opens in a new tab)"
-          >
-            <i class="fa-brands fa-square-instagram"></i>
-          </a>
-          <a
-            href="https://twitter.com/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Go to our Twitter page (opens in a new tab)"
-          >
-            <i class="fa-brands fa-square-x-twitter"></i>
-          </a>
-        </div>
       </div>
       <p>&copy; 2024 Savanna Hotel. All rights reserved.</p>
     </footer>
 
-    <!-- Include Bootstrap JS (for interactive components like dropdowns) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-      (function () {
-        emailjs.init("MdKk9b_-UF-FmN-f9");
-      })();
-    </script>
-    <script>
-      setTimeout(function () {
-        let messages = document.getElementById("msg");
-        if (messages) {
-          let alert = new bootstrap.Alert(messages);
-          alert.close();
-        }
-      }, 3000);
-    </script>
+
+    {% block extra_scripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo&callback=initMap" async defer></script>
+    {% endblock %}
   </body>
 </html>

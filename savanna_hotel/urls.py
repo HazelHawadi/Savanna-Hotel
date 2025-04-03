@@ -16,4 +16,7 @@ urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path("reviews/", include("reviews.urls")),
     path("contact/", TemplateView.as_view(template_name="contact_us.html"), name="contact_us"),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Serve static files during development
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

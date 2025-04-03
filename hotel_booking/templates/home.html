@@ -34,32 +34,3 @@
   {% endfor %}
 </div>
 
-<!-- Google Maps Section -->
-<h2 class="mt-5">Our Location</h2>
-<div id="map" style="height: 400px; width: 100%; margin-bottom: 20px;"></div>
-
-{% endblock %}
-
-<!-- Google Maps Script -->
-<script defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo">
-</script>
-
-<!-- Google Maps Initialization -->
-<script>
-  function initMap() {
-    var map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 52.27128982543945, lng: -9.70141315460205 },
-      zoom: 14,
-    });
-
-    var marker = new google.maps.Marker({
-      position: { lat: 52.27128982543945, lng: -9.70141315460205 },
-      map: map,
-      title: "Savanna Hotel Location",
-    });
-  }
-
-  // Ensure the map initializes when the page loads
-  window.onload = initMap;
-</script>

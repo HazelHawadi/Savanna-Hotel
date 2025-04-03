@@ -6,7 +6,7 @@
   <li>Room: {{ booking.room.name }}</li>
   <li>Check-in: {{ booking.check_in_date }}</li>
   <li>Check-out: {{ booking.check_out_date }}</li>
-  <li>Guests: {{ booking.guests }}</li>  <!-- Added guests field -->
+  <li>Guests: {{ booking.guests }}</li>
   <a href="{% url 'edit_booking' booking.id %}">Edit</a>
   <a href="{% url 'delete_booking' booking.id %}">Delete</a>
   {% endfor %}

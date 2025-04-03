@@ -32,7 +32,7 @@ def home(request):
 
 # Home page showing all rooms
 def index(request):
-    rooms = Room.objects.all()  # This fetches all the rooms from the database
+    rooms = Room.objects.all()  # fetch all the rooms from the database
     return render(request, 'hotel_booking/index.html', {'rooms': rooms})
 
 @login_required
@@ -56,7 +56,7 @@ def room_details(request, room_id):
 
 
 def check_room_availability(room, check_in, check_out):
-    # Check if there are any bookings for the room within the date range
+    # Checks if there are any bookings for the room within the date range
     bookings = Booking.objects.filter(room=room, check_in_date__lt=check_out, check_out_date__gt=check_in)
     return bookings.exists()
 

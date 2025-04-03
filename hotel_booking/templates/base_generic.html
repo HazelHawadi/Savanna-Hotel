@@ -58,12 +58,23 @@
           </li>
           <!-- Profile Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               Profile
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <!-- Link to bookings (My Bookings page) -->
-              <li><a class="dropdown-item" href="{% url 'accounts:my_bookings' %}">My Bookings</a></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'accounts:my_bookings' %}"
+                  >My Bookings</a
+                >
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -73,9 +84,7 @@
             <!-- Logout form that sends POST request -->
             <form action="{% url 'hotel_booking:logout' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="nav-link">
-                Logout
-              </button>
+              <button type="submit" class="nav-link">Logout</button>
             </form>
           </li>
           {% else %}
@@ -83,12 +92,36 @@
             <a class="nav-link" href="{% url 'hotel_booking:login' %}">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'hotel_booking:register' %}">Register</a>
+            <a class="nav-link" href="{% url 'hotel_booking:register' %}"
+              >Register</a
+            >
           </li>
           {% endif %}
         </ul>
       </div>
     </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          {% for message in messages %}
+          <div
+            class="alert {{ message.tags }} alert-dismissible fade show"
+            id="msg"
+            role="alert"
+          >
+            {{ message | safe }}
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
 
     <!-- Main content of the page -->
     <div class="container mt-4">{% block content %} {% endblock %}</div>
@@ -159,6 +192,15 @@
       (function () {
         emailjs.init("MdKk9b_-UF-FmN-f9");
       })();
+    </script>
+    <script>
+      setTimeout(function () {
+        let messages = document.getElementById("msg");
+        if (messages) {
+          let alert = new bootstrap.Alert(messages);
+          alert.close();
+        }
+      }, 3000);
     </script>
   </body>
 </html>

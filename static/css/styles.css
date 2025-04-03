@@ -436,6 +436,30 @@ a:hover {
 
 div#map {min-height: 360px;}
 
+/* Form styling */
+#contact-form {
+    background-color: #000;
+    color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#contact-form .form-control {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+#contact-form .form-label {
+    color: #000;
+}
+
+#contact-form .btn-primary {
+    background-color: #0056b3;
+    border: none;
+}
+
 /* For Mobile Devices (max-width: 480px) */
 @media (max-width: 480px) {
     .review-title {

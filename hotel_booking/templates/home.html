@@ -3,24 +3,63 @@
 {% block title %}Welcome to Savanna Hotel{% endblock %}
 
 {% block content %}
-    <h1 class="mt-4">Welcome to Savanna Hotel</h1>
-    <p class="lead">Browse our available rooms:</p>
+<h1 class="mt-4">Welcome to Savanna Hotel</h1>
+<p class="lead">Browse our available rooms:</p>
 
-    <div class="row">
-        {% for room in rooms %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ room.name }}</h5>
-                        <p class="card-text">{{ room.description }}</p>
-                        <p class="card-text"><strong>Price per night:</strong> ${{ room.price }}</p>
-                        <a href="{% url 'hotel_booking:room_details' room.id %}" class="btn btn-primary">View details</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <p>No rooms available at the moment.</p>
-        {% endfor %}
+<div class="row">
+  {% for room in rooms %}
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <img
+        src="{{ room.image.url }}"
+        class="card-img-top"
+        alt="{{ room.name }}"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ room.name }}</h5>
+        <p class="card-text">{{ room.description }}</p>
+        <p class="card-text">
+          <strong>Price per night:</strong> ${{ room.price }}
+        </p>
+        <a
+          href="{% url 'hotel_booking:room_details' room.id %}"
+          class="btn btn-primary"
+          >View details</a
+        >
+      </div>
     </div>
+  </div>
+  {% empty %}
+  <p>No rooms available at the moment.</p>
+  {% endfor %}
+</div>
+
+<!-- Google Maps Section -->
+<h2 class="mt-5">Our Location</h2>
+<div id="map" style="height: 400px; width: 100%; margin-bottom: 20px;"></div>
+
 {% endblock %}
+
+<!-- Google Maps Script -->
+<script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo">
+</script>
+
+<!-- Google Maps Initialization -->
+<script>
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 52.27128982543945, lng: -9.70141315460205 },
+      zoom: 14,
+    });
+
+    var marker = new google.maps.Marker({
+      position: { lat: 52.27128982543945, lng: -9.70141315460205 },
+      map: map,
+      title: "Savanna Hotel Location",
+    });
+  }
+
+  // Ensure the map initializes when the page loads
+  window.onload = initMap;
+</script>

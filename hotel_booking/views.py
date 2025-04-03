@@ -192,3 +192,7 @@ def delete_booking(request, id):
         return redirect('accounts:my_bookings')
     
     return render(request, 'hotel_booking/confirm_delete.html', {'booking': booking})
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)

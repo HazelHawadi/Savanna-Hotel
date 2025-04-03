@@ -1,5 +1,6 @@
 import os
 import dj_database_url
+import django_heroku
 from pathlib import Path
 from django.contrib.messages  import constants as messages
 from dotenv import load_dotenv
@@ -135,11 +136,8 @@ LOGIN_REDIRECT_URL = "/profile/"
 LOGOUT_REDIRECT_URL = "/"
 
 
-#Stripe
-STRIPE_CURRENCY = 'eur'
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
-STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

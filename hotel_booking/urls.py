@@ -5,9 +5,11 @@ from django.contrib.auth.views import LogoutView
 from . import views
 from accounts.views import login_view
 from .views import custom_login
+from django.conf.urls import handler404
 
 app_name = 'hotel_booking'
 
+handler404 = 'hotel_booking.views.custom_404'
 
 urlpatterns = [
     path('', views.index, name='index'),  

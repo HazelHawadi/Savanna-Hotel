@@ -30,14 +30,20 @@ logger = logging.getLogger(__name__)
 def home(request):
     rooms = Room.objects.all()
     for room in rooms:
-        room.image_filename = os.path.basename(room.image.name)
+        if room.featured_image:
+            room.image_filename = room.featured_image.url
+        else:
+            room.image_filename = None  # Handle case where there's no image
     return render(request, 'index.html', {'rooms': rooms})
 
 # Home page showing all rooms
 def index(request):
     rooms = Room.objects.all()
     for room in rooms:
-        room.image_filename = os.path.basename(room.image.name)
+        if room.featured_image:
+            room.image_filename = room.featured_image.url
+        else:
+            room.image_filename = None
     return render(request, 'hotel_booking/index.html', {'rooms': rooms})
 
 @login_required

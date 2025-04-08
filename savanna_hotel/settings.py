@@ -5,12 +5,14 @@ from pathlib import Path
 from django.contrib.messages  import constants as messages
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+DEBUG= True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -32,6 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
     'hotel_booking',
 
     #Other apps
@@ -96,12 +100,20 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DATABASE_URL = os.getenv('DATABASE_URL')
 SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
-DEBUG = os.getenv('DEBUG') == 'True'
+
 
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
     )
+}
+
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'your-cloud-name',
+    'API_KEY': 'your-api-key',
+    'API_SECRET': 'your-api-secret',
 }
 
 # Internationalization

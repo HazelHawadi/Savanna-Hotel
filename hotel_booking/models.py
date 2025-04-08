@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 from decimal import Decimal
 from django import forms
 
@@ -23,7 +24,7 @@ class Room(models.Model):
         (PENTHOUSE, 'Penthouse'),
     ]
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='rooms/', blank=True, null=True)
+    featured_image = CloudinaryField('image', default='placeholder')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.TextField()
     available = models.BooleanField(default=True)

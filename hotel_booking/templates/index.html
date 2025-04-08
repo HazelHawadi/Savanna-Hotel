@@ -19,7 +19,7 @@
       <div class="card mb-4 shadow-sm">
         <!-- Room image -->
         <img
-          src="{{ room.featured_image.url }}"
+          src="{{ room.image_filename }}"
           alt="{{ room.name }}"
           class="card-img-top"
         />
@@ -46,7 +46,9 @@
     {% endfor %}
   </div>
 
-  <div id="map" style="height: 400px; width: 100%"></div>
+  <div id="map" style="height: 400px; width: 100%">
+    <h3>Our Town</h3>
+  </div>
 </div>
 {% endblock %} {% block extra_scripts %}
 <script

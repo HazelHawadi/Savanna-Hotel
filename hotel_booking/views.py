@@ -31,9 +31,9 @@ def home(request):
     rooms = Room.objects.all()
     for room in rooms:
         if room.featured_image:
-            room.image_filename = room.featured_image.url
+            room.image_filename = room.featured_image.url.replace('http://', 'https://')
         else:
-            room.image_filename = None  # Handle case where there's no image
+            room.image_filename = None
     return render(request, 'index.html', {'rooms': rooms})
 
 # Home page showing all rooms
@@ -41,7 +41,7 @@ def index(request):
     rooms = Room.objects.all()
     for room in rooms:
         if room.featured_image:
-            room.image_filename = room.featured_image.url
+            room.image_filename = room.featured_image.url.replace('http://', 'https://')
         else:
             room.image_filename = None
     return render(request, 'hotel_booking/index.html', {'rooms': rooms})

@@ -129,7 +129,7 @@ MESSAGE_TAGS = {
 }
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Login settings
 LOGIN_REDIRECT_URL = "/profile/"

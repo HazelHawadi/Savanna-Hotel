@@ -8,7 +8,7 @@
   <div class="col-md-4 mb-4">
     <div class="card">
       <img
-        src="{% static 'media/uploads/' %}{{ room.image_filename }}"
+        src="{{ room.image.url }}"
         alt="{{ room.name }}"
         class="card-img-top"
       />

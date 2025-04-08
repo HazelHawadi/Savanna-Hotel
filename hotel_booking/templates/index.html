@@ -1,6 +1,4 @@
-{% extends 'base_generic.html' %} 
-{% load static %}
-{% block content %}
+{% extends 'base_generic.html' %} {% load static %} {% block content %}
 <div class="container mt-4">
   <h1 class="mb-4">Welcome to Savanna Hotel</h1>
   <h5>
@@ -21,7 +19,7 @@
       <div class="card mb-4 shadow-sm">
         <!-- Room image -->
         <img
-          src="{{ room.image.url }}"
+          src="{% static 'media/uploads/' %}{{ room.image_filename }}"
           alt="{{ room.name }}"
           class="card-img-top"
         />
@@ -50,11 +48,7 @@
 
   <div id="map" style="height: 400px; width: 100%"></div>
 </div>
-
-
-{% endblock %}
-
-{% block extra_scripts %}
+{% endblock %} {% block extra_scripts %}
 <script
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCytFfKc4EOq9jYXjn_dYxQIILTaPpxlGo&callback=initMap"
   async

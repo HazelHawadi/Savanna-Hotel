@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseBadRequest
@@ -27,12 +28,16 @@ logger = logging.getLogger(__name__)
 
 # Home view for the landing page
 def home(request):
-    rooms = Room.objects.all()  # Fetch all rooms from the database
-    return render(request, 'index.html', {'rooms': rooms})  # Render homepage template
+    rooms = Room.objects.all()
+    for room in rooms:
+        room.image_filename = os.path.basename(room.image.name)
+    return render(request, 'index.html', {'rooms': rooms})
 
 # Home page showing all rooms
 def index(request):
-    rooms = Room.objects.all()  # fetch all the rooms from the database
+    rooms = Room.objects.all()
+    for room in rooms:
+        room.image_filename = os.path.basename(room.image.name)
     return render(request, 'hotel_booking/index.html', {'rooms': rooms})
 
 @login_required

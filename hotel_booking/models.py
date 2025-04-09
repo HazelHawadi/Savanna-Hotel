@@ -4,6 +4,7 @@ from cloudinary.models import CloudinaryField
 from decimal import Decimal
 from django import forms
 
+
 # Room model to define the rooms available in the hotel
 class Room(models.Model):
     SINGLE = 'Single'
@@ -30,14 +31,14 @@ class Room(models.Model):
     available = models.BooleanField(default=True)
     capacity = models.IntegerField(default=1)
     room_type = models.CharField(
-        max_length=20, 
-        choices=ROOM_TYPE_CHOICES, 
+        max_length=20,
+        choices=ROOM_TYPE_CHOICES,
         default=SINGLE
     )
 
-
     def __str__(self):
         return self.name
+
 
 # Booking model to define the bookings for rooms
 class Booking(models.Model):
@@ -50,13 +51,14 @@ class Booking(models.Model):
     guests = models.IntegerField(default=1)
     duration = models.IntegerField(default=1)
     total_cost = models.DecimalField(
-        max_digits=10, 
-        decimal_places=2, 
+        max_digits=10,
+        decimal_places=2,
         default=Decimal('0.00'),
         null=False,
         blank=False
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
 
     CONFIRMED = 'Confirmed'
     PENDING = 'Pending'
@@ -67,7 +69,7 @@ class Booking(models.Model):
         (PENDING, 'Pending'),
         (CANCELLED, 'Cancelled'),
     ]
-    
+
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
@@ -75,13 +77,15 @@ class Booking(models.Model):
     )
 
     def __str__(self):
-        return f"Booking for {self.room.name} by {self.user.username if self.user else 'Guest'}"
-    
+        return f"Booking for {self.room.name} by {
+            self.user.username if self.user else 'Guest'}"
+
+
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['room', 'check_in_date', 'check_out_date', 'guests']
-    
+
     def clean(self):
         cleaned_data = super().clean()
         check_in_date = cleaned_data.get('check_in_date')
@@ -89,6 +93,5 @@ class BookingForm(forms.ModelForm):
 
         if check_in_date and check_out_date and check_out_date <= check_in_date:
             raise forms.ValidationError("Check-out date must be after check-in date.")
-        
+
         return cleaned_data
-    

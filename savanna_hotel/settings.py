@@ -1,7 +1,10 @@
 import os
 import dj_database_url
-import django_heroku
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 from pathlib import Path
+import django_heroku
 from django.contrib.messages  import constants as messages
 from dotenv import load_dotenv
 
@@ -110,11 +113,9 @@ DATABASES = {
 
 CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'your-cloud-name',
-    'API_KEY': 'your-api-key',
-    'API_SECRET': 'your-api-secret',
-}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+cloudinary.config(secure=True)
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

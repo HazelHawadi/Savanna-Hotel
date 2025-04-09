@@ -77,8 +77,7 @@ class Booking(models.Model):
     )
 
     def __str__(self):
-        return f"Booking for {self.room.name} by {
-            self.user.username if self.user else 'Guest'}"
+        return f"Booking for {self.room.name} by {self.user.username if self.user else 'Guest'}"
 
 
 class BookingForm(forms.ModelForm):

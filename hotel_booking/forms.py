@@ -2,8 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Booking, Room
 from django.utils import timezone
-from datetime import datetime
-from django.core.exceptions import ValidationError
+
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -131,3 +130,9 @@ class AddRoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = ['name', 'price', 'description', 'available']
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email']

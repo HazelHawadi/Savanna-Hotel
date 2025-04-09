@@ -1,0 +1,65 @@
+{% extends 'base_generic.html' %} {% load static %} {% block title %}My
+Profile{% endblock %} {% block content %}
+<h2>Welcome, {{ user.username }}</h2>
+
+{% if updated %}
+<h3>Your updated details:</h3>
+<ul>
+  <li><strong>First Name:</strong> {{ user.first_name }}</li>
+  <li><strong>Last Name:</strong> {{ user.last_name }}</li>
+  <li><strong>Username:</strong> {{ user.username }}</li>
+  <li><strong>Email:</strong> {{ user.email }}</li>
+</ul>
+<a href="{% url 'hotel_booking:profile' %}" class="btn btn-secondary mt-3"
+  >Edit Again</a
+>
+
+{% elif request.method != "POST" and not request.GET.edit %}
+<h3>Your Current Details:</h3>
+<ul>
+  <li><strong>First Name:</strong> {{ user.first_name }}</li>
+  <li><strong>Last Name:</strong> {{ user.last_name }}</li>
+  <li><strong>Username:</strong> {{ user.username }}</li>
+  <li><strong>Email:</strong> {{ user.email }}</li>
+</ul>
+<a href="?edit=true" class="btn btn-primary">Edit Profile</a>
+
+{% else %}
+<h3>Update Your Details:</h3>
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="first_name">First Name:</label>
+    {{ form.first_name }}
+  </div>
+
+  <div class="form-group">
+    <label for="last_name">Last Name:</label>
+    {{ form.last_name }}
+  </div>
+
+  <div class="form-group">
+    <label for="username">Username:</label>
+    {{ form.username }}
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    {{ form.email }}
+  </div>
+
+  <button type="submit" name="update_details" class="btn btn-success">
+    Update
+  </button>
+  <a href="{% url 'hotel_booking:profile' %}" class="btn btn-secondary"
+    >Cancel</a
+  >
+</form>
+{% endif %}
+
+<hr />
+
+<a href="{% url 'hotel_booking:delete_account' %}" class="btn btn-danger"
+  >Delete My Account</a
+>
+{% endblock %}

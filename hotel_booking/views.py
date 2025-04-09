@@ -21,10 +21,13 @@ from django.contrib.auth import logout
 import logging
 from .forms import BookingForm
 from .forms import BookingUpdateForm
+from django.contrib.auth import get_user_model
+from .forms import UserUpdateForm
 
 
 # Create your views here.
 logger = logging.getLogger(__name__)
+
 
 # Home view for the landing page
 def home(request):
@@ -207,3 +210,40 @@ def delete_booking(request, id):
 
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
+
+
+@login_required
+def profile(request):
+    user = request.user
+    updated = False
+
+    if request.method == 'POST':
+        if 'update_details' in request.POST:
+            form = UserUpdateForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Your details have been updated.")
+                updated = True
+        else:
+            form = UserUpdateForm(instance=user)
+    else:
+        form = UserUpdateForm(instance=user)
+
+    return render(request, 'hotel_booking/profile.html', {
+        'user': user,
+        'form': form,
+        'updated': updated,
+    })
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        if 'confirm_delete' in request.POST:
+            request.user.delete()
+            messages.success(request, "Your account has been deleted.")
+            logout(request)
+            return redirect('hotel_booking:index')
+        else:
+            return redirect('hotel_booking:profile')
+
+    return render(request, 'hotel_booking/delete_account_confirm.html')

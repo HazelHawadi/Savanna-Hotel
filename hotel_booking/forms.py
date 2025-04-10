@@ -5,9 +5,13 @@ from django.utils import timezone
 
 
 class BookingForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.room = kwargs.pop('room', None)
+        super().__init__(*args, **kwargs)
+
     class Meta:
         model = Booking
-        fields = ['room', 'check_in_date', 'check_out_date', 'guests']
+        fields = ['check_in_date', 'check_out_date', 'guests']
 
     check_in_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
@@ -66,16 +70,12 @@ class BookingForm(forms.ModelForm):
         return cleaned_data
 
     def clean_guests(self):
-
         guests = self.cleaned_data.get('guests')
-        room = self.cleaned_data.get('room')
-
-        if room and guests:
-            if guests > room.capacity:
+        if self.room and guests:
+            if guests > self.room.capacity:
                 raise forms.ValidationError(
-                    "The number of guests exceeds the room's capacity."
+                    f"This room allows a maximum of {self.room.capacity} guests."
                 )
-
         return guests
 
 

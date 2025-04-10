@@ -3,8 +3,7 @@
   <h1 class="mb-4">{{ room.name }}</h1>
 
   <div class="row">
-    {% if room.image %}
-    <!-- Room Image -->
+    {% if room.featured_image %}
     <div class="col-md-6">
       <img
         src="{{ room.featured_image.url }}"

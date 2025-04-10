@@ -74,36 +74,23 @@ def book_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
 
     if request.method == 'POST':
-        form = BookingForm(request.POST)
+        form = BookingForm(request.POST, room=room)
         if form.is_valid():
-            # Calculate total cost here
-            check_in = form.cleaned_data['check_in_date']
-            check_out = form.cleaned_data['check_out_date']
-            duration = (check_out - check_in).days
-            total_cost = room.price * duration
-
-            # Save the booking with the calculated total cost
             booking = form.save(commit=False)
             booking.room = room
             booking.user = request.user
-            booking.duration = duration  # Save duration
-            booking.total_cost = total_cost  # Save total cost
+            booking.duration = (form.cleaned_data['check_out_date'] - form.cleaned_data['check_in_date']).days
+            booking.total_cost = room.price * booking.duration
             booking.save()
 
             messages.success(request, "Booking confirmed!")
-            return redirect(
-                'hotel_booking:booking_confirmation', booking_id=booking.id
-            )
+            return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
         else:
-            messages.error(request, "Please correct the errors in the form.")
+            messages.error(request, "Please correct the errors below.")
     else:
-        form = BookingForm()
+        form = BookingForm(room=room)
 
-    return render(
-        request,
-        'hotel_booking/book_room.html',
-        {'form': form, 'room': room}
-    )
+    return render(request, 'hotel_booking/book_room.html', {'form': form, 'room': room})
 
 
 def create_booking(request):

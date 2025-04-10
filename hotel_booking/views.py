@@ -10,11 +10,9 @@ from django.contrib.auth import logout
 import logging
 from .forms import BookingForm, BookingUpdateForm, UserUpdateForm, AddRoomForm
 
-# Create your views here.
 logger = logging.getLogger(__name__)
 
 
-# Home view for the landing page
 def home(request):
     rooms = Room.objects.all()
     for room in rooms:
@@ -26,7 +24,6 @@ def home(request):
     return render(request, 'index.html', {'rooms': rooms})
 
 
-# Home page showing all rooms
 def index(request):
     rooms = Room.objects.all()
     for room in rooms:
@@ -60,7 +57,6 @@ def room_details(request, room_id):
 
 
 def check_room_availability(room, check_in, check_out):
-    # Checks if there are any bookings for the room within the date range
     bookings = Booking.objects.filter(
         room=room,
         check_in_date__lt=check_out,
@@ -79,18 +75,28 @@ def book_room(request, room_id):
             booking = form.save(commit=False)
             booking.room = room
             booking.user = request.user
-            booking.duration = (form.cleaned_data['check_out_date'] - form.cleaned_data['check_in_date']).days
+            booking.duration = (
+                form.cleaned_data['check_out_date']
+                - form.cleaned_data['check_in_date']
+            ).days
             booking.total_cost = room.price * booking.duration
             booking.save()
 
             messages.success(request, "Booking confirmed!")
-            return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
+            return redirect(
+                'hotel_booking:booking_confirmation',
+                booking_id=booking.id
+            )
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = BookingForm(room=room)
 
-    return render(request, 'hotel_booking/book_room.html', {'form': form, 'room': room})
+    return render(
+        request,
+        'hotel_booking/book_room.html',
+        {'form': form, 'room': room}
+    )
 
 
 def create_booking(request):
@@ -101,12 +107,17 @@ def create_booking(request):
             booking.user = request.user
             booking.save()
             return redirect(
-                'hotel_booking:booking_confirmation', booking_id=booking.id
+                'hotel_booking:booking_confirmation',
+                booking_id=booking.id
             )
     else:
         form = BookingForm()
 
-    return render(request, 'hotel_booking/create_booking.html', {'form': form})
+    return render(
+        request,
+        'hotel_booking/create_booking.html',
+        {'form': form}
+    )
 
 
 def booking_confirmation(request, booking_id):
@@ -122,7 +133,6 @@ def booking_confirmation(request, booking_id):
         return redirect('hotel_booking:index')
 
 
-# Register view
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -130,7 +140,9 @@ def register(request):
             user = form.save()
             login(
                 request,
-                user, backend='django.contrib.auth.backends.ModelBackend')
+                user,
+                backend='django.contrib.auth.backends.ModelBackend'
+            )
             messages.success(request, "Registration successful! Welcome.")
             return redirect('hotel_booking:index')
     else:
@@ -139,7 +151,6 @@ def register(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 
-# Custom login view
 def custom_login(request):
     form = AuthenticationForm(request, data=request.POST or None)
 
@@ -168,7 +179,6 @@ def hotel_booking_view(request):
 
 @login_required
 def update_booking(request, id):
-    # Retrieve the booking object by ID
     booking = get_object_or_404(Booking, id=id)
 
     if request.method == 'POST':
@@ -201,7 +211,11 @@ def my_bookings(request):
     else:
         bookings = []
 
-    return render(request, 'accounts/my_bookings.html', {'bookings': bookings})
+    return render(
+        request,
+        'accounts/my_bookings.html',
+        {'bookings': bookings}
+    )
 
 
 def delete_booking(request, id):
@@ -239,11 +253,15 @@ def profile(request):
     else:
         form = UserUpdateForm(instance=user)
 
-    return render(request, 'hotel_booking/profile.html', {
-        'user': user,
-        'form': form,
-        'updated': updated,
-    })
+    return render(
+        request,
+        'hotel_booking/profile.html',
+        {
+            'user': user,
+            'form': form,
+            'updated': updated,
+        }
+    )
 
 
 @login_required

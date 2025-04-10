@@ -15,25 +15,31 @@ class BookingForm(forms.ModelForm):
 
     check_in_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
-        widget=forms.TextInput(attrs={
-            'placeholder': 'DD/MM/YYYY',
-            'class': 'form-control'
-        })
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'DD/MM/YYYY',
+                'class': 'form-control'
+            }
+        )
     )
 
     check_out_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
-        widget=forms.TextInput(attrs={
-            'placeholder': 'DD/MM/YYYY',
-            'class': 'form-control'
-        })
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'DD/MM/YYYY',
+                'class': 'form-control'
+            }
+        )
     )
 
     guests = forms.IntegerField(
-        widget=forms.NumberInput(attrs={
-            'placeholder': 'Number of guests',
-            'class': 'form-control'
-        })
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'Number of guests',
+                'class': 'form-control'
+            }
+        )
     )
 
     def clean_check_in_date(self):
@@ -74,7 +80,8 @@ class BookingForm(forms.ModelForm):
         if self.room and guests:
             if guests > self.room.capacity:
                 raise forms.ValidationError(
-                    f"This room allows a maximum of {self.room.capacity} guests."
+                    f"This room allows a maximum of "
+                    f"{self.room.capacity} guests."
                 )
         return guests
 
@@ -86,25 +93,31 @@ class BookingUpdateForm(forms.ModelForm):
 
     check_in_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
-        widget=forms.TextInput(attrs={
-            'placeholder': 'DD/MM/YYYY',
-            'class': 'form-control'
-        })
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'DD/MM/YYYY',
+                'class': 'form-control'
+            }
+        )
     )
 
     check_out_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
-        widget=forms.TextInput(attrs={
-            'placeholder': 'DD/MM/YYYY',
-            'class': 'form-control'
-        })
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'DD/MM/YYYY',
+                'class': 'form-control'
+            }
+        )
     )
 
     guests = forms.IntegerField(
-        widget=forms.NumberInput(attrs={
-            'placeholder': 'Number of guests',
-            'class': 'form-control'
-        })
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'Number of guests',
+                'class': 'form-control'
+            }
+        )
     )
 
     def clean_check_in_date(self):

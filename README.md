@@ -34,7 +34,7 @@ Users can view room availability, book rooms, manage their bookings, and update 
 ### Site Owner’s Goal:
 Provide a simple and intuitive platform for guests to book rooms, view details, and interact with the hotel services.
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 # User Experience
 
@@ -58,7 +58,7 @@ The wireframes were created with [Balsamiq](https://balsamiq.cloud/sihiecx/p9ewm
 * ### Contact Page
 ![Savanna Hotel Wireframes](readme/assets/images/wireframe4.png)
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 ## User Stories 
 
@@ -148,7 +148,7 @@ As a hotel staff/admin, I want to manage rooms, bookings, and guest profiles so 
 - Admin users can view guest profiles.
 
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 # Site Structure
 
@@ -179,7 +179,7 @@ Guests can view their upcoming bookings, make modifications, or cancel bookings 
 ![profile](readme/assets/images/profile.png)
 Each guest has a profile page that shows personal details. Guests can update their profiles to ensure their information is up to date.
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 # Design Choices and Color Scheme
 
@@ -196,7 +196,7 @@ The site uses the 'Roboto' font family for a modern, clean, and readable design.
 #### Custom CSS and Bootstrap Integration
 The design integrates Bootstrap's responsive grid system with custom CSS to ensure a consistent and flexible experience across all devices.
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 # Features
 
@@ -222,7 +222,7 @@ Savanna Hotel offers a variety of features to enhance the user experience, from 
 ### Responsive Design
 - **Mobile-Friendly Layout**: The site is designed to work smoothly across all devices, offering a seamless experience for guests on both mobile and desktop.
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 ## Future Features
 
@@ -232,7 +232,7 @@ As the **Savanna Hotel** platform evolves, additional features will be added to 
 - **Advanced Search Filters**: Allow guests to filter rooms by price, location, amenities, and availability.
 - **Review System**: Enable guests to leave reviews and ratings for rooms they have stayed in.
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 # Technologies Used
 
@@ -264,7 +264,7 @@ As the **Savanna Hotel** platform evolves, additional features will be added to 
 - FancyApp
 - Code institute learning
 
-[Back to top](<#table-of-content>)
+[Back to top](<#table-of-contents>)
 
 ## Testing
 ### Css

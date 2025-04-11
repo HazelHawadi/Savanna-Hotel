@@ -2,7 +2,7 @@
 
 Savanna Hotel is a user-friendly platform designed to allow guests to easily book rooms, manage their reservations, and enjoy a seamless experience with modern features. The platform aims to offer a clean and intuitive interface for both guests and hotel staff.
 
-**Deployed site: [insert your deployed link here]**
+**Deployed site: [Savanna Hotel](https://savanna-hotel4-485797427d23.herokuapp.com/)**
 
 ![Savanna Hotel responsive design](readme/assets/images/responsive.png)
 
@@ -247,10 +247,28 @@ As the **Savanna Hotel** platform evolves, additional features will be added to 
 * [Cloudinary](https://cloudinary.com/)
 * [Bootstrap](https://getbootstrap.com/)
 * [Heroku](https://en.wikipedia.org/wiki/Heroku)
+* [Emailjs](https://dashboard.emailjs.com/admin)
+* [Google Maps](https://developers.google.com/)
+
+### Other
+- Visual Studio Code
+- Font awesome
+- Github 
+- Unsplashed
+- Fontjoy
+- Google fonts
+- Pexels
+- Favicon.cc
+- W3C Jigsaw CSS Validator
+- Colorfilter
+- FancyApp
+- Code institute learning
 
 [Back to top](<#table-of-content>)
 
 ## Testing
+### Css
+![CSS](readme/assets/images/csstesting.png)
 
 
 ## Deployment

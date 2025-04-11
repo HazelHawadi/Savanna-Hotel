@@ -4,8 +4,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from pathlib import Path
-import django_heroku
-from django.contrib.messages  import constants as messages
+from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 
 
@@ -41,14 +40,14 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'hotel_booking',
 
-    #Other apps
+    # Other apps
     'accounts',
     'reviews',
     'django.contrib.sites',  # Required by allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook', # Facebook provider    
+    'allauth.socialaccount.providers.facebook',  # Facebook provider
 ]
 
 MIDDLEWARE = [

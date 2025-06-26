@@ -15,12 +15,12 @@ def register_view(request):
             login(request, user)
             messages.success(
                 request, "Registration successful! Welcome."
-            )  # Break long line
+            )
             return redirect("home")
         else:
             messages.error(
                 request, "Registration failed. Please correct the errors."
-            )  # Break long line
+            )
     else:
         form = UserCreationForm()
 
@@ -51,11 +51,11 @@ def login_view(request):
             else:
                 messages.error(
                     request, "Invalid username or password."
-                )  # Break long line
+                )
         else:
             messages.error(
                 request, "Invalid credentials. Please try again."
-            )  # Break long line
+            )
     else:
         form = AuthenticationForm()
 

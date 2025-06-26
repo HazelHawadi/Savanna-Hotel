@@ -1,5 +1,8 @@
-{% extends 'base_generic.html' %} {% block title %}Confirm Account Deletion{%
-endblock %} {% block content %}
+{% extends 'base_generic.html' %}
+
+{% block title %}Confirm Account Deletion{% endblock %}
+
+{% block content %}
 <h2>Confirm Deletion</h2>
 <p>
   Are you sure you want to delete your account? This action cannot be undone.
@@ -10,8 +13,8 @@ endblock %} {% block content %}
   <button type="submit" name="confirm_delete" class="btn btn-danger">
     Yes, Delete My Account
   </button>
-  <a href="{% url 'hotel_booking:profile' %}" class="btn btn-secondary"
-    >Cancel</a
-  >
+  <a href="{% url 'hotel_booking:profile' %}" class="btn btn-secondary">
+    Cancel
+  </a>
 </form>
 {% endblock %}

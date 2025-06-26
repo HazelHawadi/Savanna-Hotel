@@ -4,6 +4,20 @@
 <div class="container mt-4">
     <h1 class="mb-4">Book Room: {{ room.name }}</h1>
 
+    <!-- Show validation errors -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <!-- Booking Form -->
     <form method="POST">
         {% csrf_token %}

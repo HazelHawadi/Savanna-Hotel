@@ -52,7 +52,7 @@ def add_room(request):
 
 
 def room_details(request, room_id):
-    room = Room.objects.get(id=room_id)
+    room = get_object_or_404(Room, id=room_id)
     return render(request, 'room_details.html', {'room': room})
 
 

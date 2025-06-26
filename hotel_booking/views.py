@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import logout
 import logging
+from datetime import timedelta
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 from .forms import BookingForm, BookingUpdateForm, UserUpdateForm, AddRoomForm
 
 logger = logging.getLogger(__name__)
@@ -69,6 +72,17 @@ def check_room_availability(room, check_in, check_out):
 def book_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
 
+    # Get all bookings for this room
+    bookings = Booking.objects.filter(room=room)
+
+    # Generate disabled dates
+    disabled_dates = []
+    for booking in bookings:
+        current = booking.check_in_date
+        while current < booking.check_out_date:
+            disabled_dates.append(current.strftime('%d/%m/%Y'))
+            current += timedelta(days=1)
+
     if request.method == 'POST':
         form = BookingForm(request.POST, room=room)
         if form.is_valid():
@@ -76,27 +90,22 @@ def book_room(request, room_id):
             booking.room = room
             booking.user = request.user
             booking.duration = (
-                form.cleaned_data['check_out_date']
-                - form.cleaned_data['check_in_date']
+                form.cleaned_data['check_out_date'] - form.cleaned_data['check_in_date']
             ).days
             booking.total_cost = room.price * booking.duration
             booking.save()
-
             messages.success(request, "Booking confirmed!")
-            return redirect(
-                'hotel_booking:booking_confirmation',
-                booking_id=booking.id
-            )
+            return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = BookingForm(room=room)
 
-    return render(
-        request,
-        'hotel_booking/book_room.html',
-        {'form': form, 'room': room}
-    )
+    return render(request, 'hotel_booking/book_room.html', {
+        'form': form,
+        'room': room,
+        'disabled_dates_json': json.dumps(disabled_dates),
+    })
 
 
 def create_booking(request):

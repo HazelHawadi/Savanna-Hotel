@@ -41,6 +41,7 @@ class BookingForm(forms.ModelForm):
         cleaned_data = super().clean()
         check_in = cleaned_data.get('check_in_date')
         check_out = cleaned_data.get('check_out_date')
+        guests = cleaned_data.get('guests')
 
         if not check_in or not check_out or not self.room:
             return cleaned_data
@@ -50,9 +51,13 @@ class BookingForm(forms.ModelForm):
             check_in_date__lt=check_out,
             check_out_date__gt=check_in
         )
-
         if overlapping_bookings.exists():
             raise ValidationError("This room is already booked during the selected dates.")
+
+        if guests and guests > self.room.capacity:
+            raise ValidationError(
+                f"This room has a maximum capacity of {self.room.capacity} guests."
+            )
 
         return cleaned_data
     

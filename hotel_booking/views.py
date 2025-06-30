@@ -191,7 +191,7 @@ def update_booking(request, id):
     booking = get_object_or_404(Booking, id=id)
 
     if request.method == 'POST':
-        form = BookingUpdateForm(request.POST, instance=booking)
+        form = BookingUpdateForm(request.POST, instance=booking, room=booking.room)
         if form.is_valid():
             check_in = form.cleaned_data['check_in_date']
             check_out = form.cleaned_data['check_out_date']
@@ -204,12 +204,24 @@ def update_booking(request, id):
 
             return redirect('accounts:my_bookings')
     else:
-        form = BookingUpdateForm(instance=booking)
+        form = BookingUpdateForm(instance=booking, room=booking.room)
+
+    bookings = Booking.objects.filter(room=booking.room).exclude(id=booking.id)
+    disabled_dates = []
+    for b in bookings:
+        current_date = b.check_in_date
+        while current_date < b.check_out_date:
+            disabled_dates.append(current_date.strftime('%d/%m/%Y'))
+            current_date += timedelta(days=1)
 
     return render(
         request,
-        'hotel_booking/booking_form.html',
-        {'form': form, 'booking': booking}
+        'hotel_booking/update_booking.html',
+        {
+            'form': form,
+            'booking': booking,
+            'disabled_dates_json': json.dumps(disabled_dates),
+        }
     )
 
 

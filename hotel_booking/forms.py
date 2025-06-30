@@ -63,9 +63,13 @@ class BookingForm(forms.ModelForm):
     
 
 class BookingUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.room = kwargs.pop('room', None)
+        super().__init__(*args, **kwargs)
+
     class Meta:
         model = Booking
-        fields = ['room', 'check_in_date', 'check_out_date', 'guests']
+        fields = ['check_in_date', 'check_out_date', 'guests']
 
     check_in_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
@@ -95,6 +99,20 @@ class BookingUpdateForm(forms.ModelForm):
             }
         )
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        check_in = cleaned_data.get('check_in_date')
+        check_out = cleaned_data.get('check_out_date')
+        guests = cleaned_data.get('guests')
+        room = self.room or self.instance.room
+
+        if guests and room and guests > room.capacity:
+            raise ValidationError(
+                f"This room has a maximum capacity of {room.capacity} guests."
+            )
+
+        return cleaned_data
 
     def clean_check_in_date(self):
         check_in_date = self.cleaned_data.get('check_in_date')

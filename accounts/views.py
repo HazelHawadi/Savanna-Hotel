@@ -39,7 +39,7 @@ def login_view(request):
                 login(request, user)
                 messages.success(
                     request, f"Welcome back, {user.username}!"
-                )  # Break long line
+                )
 
                 # Check if 'Remember Me' was checked
                 if request.POST.get('remember_me'):

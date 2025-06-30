@@ -9,7 +9,6 @@ from django.contrib import messages
 from django.contrib.auth import logout
 import logging
 from datetime import timedelta
-from django.core.serializers.json import DjangoJSONEncoder
 import json
 from .forms import BookingForm, BookingUpdateForm, UserUpdateForm, AddRoomForm
 
@@ -72,10 +71,8 @@ def check_room_availability(room, check_in, check_out):
 def book_room(request, room_id):
     room = get_object_or_404(Room, id=room_id)
 
-    # Get all bookings for this room
     bookings = Booking.objects.filter(room=room)
 
-    # Generate disabled dates
     disabled_dates = []
     for booking in bookings:
         current = booking.check_in_date
@@ -90,12 +87,15 @@ def book_room(request, room_id):
             booking.room = room
             booking.user = request.user
             booking.duration = (
-                form.cleaned_data['check_out_date'] - form.cleaned_data['check_in_date']
+                form.cleaned_data['check_out_date']
+                - form.cleaned_data['check_in_date']
             ).days
             booking.total_cost = room.price * booking.duration
             booking.save()
-            messages.success(request, "Booking confirmed!")
-            return redirect('hotel_booking:booking_confirmation', booking_id=booking.id)
+            return redirect(
+                'hotel_booking:booking_confirmation',
+                booking_id=booking.id
+            )
         else:
             messages.error(request, "Please correct the errors below.")
     else:
@@ -191,7 +191,11 @@ def update_booking(request, id):
     booking = get_object_or_404(Booking, id=id)
 
     if request.method == 'POST':
-        form = BookingUpdateForm(request.POST, instance=booking, room=booking.room)
+        form = BookingUpdateForm(
+            request.POST,
+            instance=booking,
+            room=booking.room
+        )
         if form.is_valid():
             check_in = form.cleaned_data['check_in_date']
             check_out = form.cleaned_data['check_out_date']
@@ -204,7 +208,10 @@ def update_booking(request, id):
 
             return redirect('accounts:my_bookings')
     else:
-        form = BookingUpdateForm(instance=booking, room=booking.room)
+        form = BookingUpdateForm(
+            instance=booking,
+            room=booking.room
+        )
 
     bookings = Booking.objects.filter(room=booking.room).exclude(id=booking.id)
     disabled_dates = []
@@ -267,7 +274,10 @@ def profile(request):
             form = UserUpdateForm(request.POST, instance=user)
             if form.is_valid():
                 form.save()
-                messages.success(request, "Your details have been updated.")
+                messages.success(
+                    request,
+                    "Your details have been updated."
+                )
                 updated = True
         else:
             form = UserUpdateForm(instance=user)

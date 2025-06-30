@@ -14,17 +14,23 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG= True
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    '8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
+    (
+        '8000-hazelhawadi-savannahote-4nwgbgp3r8i.'
+        'ws-eu117.gitpod.io'
+    ),
     'savanna-hotel-49356fa5de49.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.ws-eu117.gitpod.io',
+    (
+        'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.'
+        'ws-eu117.gitpod.io'
+    ),
     'https://savanna-hotel4-485797427d23.herokuapp.com',
 ]
 
@@ -87,10 +93,30 @@ WSGI_APPLICATION = 'savanna_hotel.wsgi.application'
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
+        ),
+    },
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator'
+        ),
+    },
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator'
+        ),
+    },
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'NumericPasswordValidator'
+        ),
+    },
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -146,7 +172,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Login settings
 LOGIN_REDIRECT_URL = "/profile/"
 LOGOUT_REDIRECT_URL = "/"
-
 
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 

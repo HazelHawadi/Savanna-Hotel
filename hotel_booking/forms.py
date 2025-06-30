@@ -16,25 +16,31 @@ class BookingForm(forms.ModelForm):
 
     check_in_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
-        widget=forms.TextInput(attrs={
-            'placeholder': 'DD/MM/YYYY',
-            'class': 'form-control'
-        })
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'DD/MM/YYYY',
+                'class': 'form-control'
+            }
+        )
     )
 
     check_out_date = forms.DateField(
         input_formats=['%d/%m/%Y'],
-        widget=forms.TextInput(attrs={
-            'placeholder': 'DD/MM/YYYY',
-            'class': 'form-control'
-        })
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'DD/MM/YYYY',
+                'class': 'form-control'
+            }
+        )
     )
 
     guests = forms.IntegerField(
-        widget=forms.NumberInput(attrs={
-            'placeholder': 'Number of guests',
-            'class': 'form-control'
-        })
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'Number of guests',
+                'class': 'form-control'
+            }
+        )
     )
 
     def clean(self):
@@ -52,15 +58,18 @@ class BookingForm(forms.ModelForm):
             check_out_date__gt=check_in
         )
         if overlapping_bookings.exists():
-            raise ValidationError("This room is already booked during the selected dates.")
+            raise ValidationError(
+                "This room is already booked during the selected dates."
+            )
 
         if guests and guests > self.room.capacity:
             raise ValidationError(
-                f"This room has a maximum capacity of {self.room.capacity} guests."
+                f"This room has a maximum capacity of "
+                f"{self.room.capacity} guests."
             )
 
         return cleaned_data
-    
+
 
 class BookingUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -102,14 +111,13 @@ class BookingUpdateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        check_in = cleaned_data.get('check_in_date')
-        check_out = cleaned_data.get('check_out_date')
         guests = cleaned_data.get('guests')
         room = self.room or self.instance.room
 
         if guests and room and guests > room.capacity:
             raise ValidationError(
-                f"This room has a maximum capacity of {room.capacity} guests."
+                f"This room has a maximum capacity of "
+                f"{room.capacity} guests."
             )
 
         return cleaned_data

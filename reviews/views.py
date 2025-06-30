@@ -4,6 +4,7 @@ from .models import Review
 from .forms import ReviewForm
 from hotel_booking.models import Room
 
+
 @login_required
 def add_review(request, room_id):
     room = get_object_or_404(Room, id=room_id)
@@ -17,7 +18,12 @@ def add_review(request, room_id):
             return redirect("hotel_booking:room_detail", id=room_id)
     else:
         form = ReviewForm()
-    return render(request, "reviews/add_review.html", {"form": form, "room": room})
+    return render(
+        request,
+        "reviews/edit_review.html",
+        {"form": form, "review": review}
+    )
+
 
 @login_required
 def edit_review(request, review_id):
@@ -26,10 +32,18 @@ def edit_review(request, review_id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect("hotel_booking:room_detail", id=review.room.id)
+            return redirect(
+                "hotel_booking:room_detail",
+                id=review.room.id
+            )
     else:
         form = ReviewForm(instance=review)
-    return render(request, "reviews/edit_review.html", {"form": form, "review": review})
+    return render(
+        request,
+        "reviews/edit_review.html",
+        {"form": form, "review": review},
+    )
+
 
 @login_required
 def delete_review(request, review_id):

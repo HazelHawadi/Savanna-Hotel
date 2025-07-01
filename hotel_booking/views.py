@@ -190,6 +190,11 @@ def hotel_booking_view(request):
 def update_booking(request, id):
     booking = get_object_or_404(Booking, id=id)
 
+    # Ownership check
+    if booking.user != request.user:
+        messages.error(request, "You do not have permission to edit this booking.")
+        return redirect('accounts:my_bookings')
+
     if request.method == 'POST':
         form = BookingUpdateForm(
             request.POST,
@@ -246,8 +251,14 @@ def my_bookings(request):
     )
 
 
+@login_required
 def delete_booking(request, id):
     booking = get_object_or_404(Booking, id=id)
+
+    # Ownership check
+    if booking.user != request.user:
+        messages.error(request, "You do not have permission to delete this booking.")
+        return redirect('accounts:my_bookings')
 
     if request.method == 'POST':
         booking.delete()

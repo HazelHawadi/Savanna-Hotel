@@ -35,6 +35,7 @@ class BookingForm(forms.ModelForm):
     )
 
     guests = forms.IntegerField(
+        min_value=1,
         widget=forms.NumberInput(
             attrs={
                 'placeholder': 'Number of guests',
@@ -101,6 +102,7 @@ class BookingUpdateForm(forms.ModelForm):
     )
 
     guests = forms.IntegerField(
+        min_value=1,
         widget=forms.NumberInput(
             attrs={
                 'placeholder': 'Number of guests',

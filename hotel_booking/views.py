@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from .models import Room, Booking
 from django.contrib.auth.forms import UserCreationForm
@@ -129,17 +130,15 @@ def create_booking(request):
     )
 
 
+@login_required
 def booking_confirmation(request, booking_id):
-    try:
-        booking = get_object_or_404(Booking, id=booking_id)
-        return render(
-            request,
-            'hotel_booking/booking_confirmation.html',
-            {'booking': booking}
-        )
-    except Booking.DoesNotExist:
-        messages.error(request, "Booking not found.")
-        return redirect('hotel_booking:index')
+    booking = get_object_or_404(Booking, pk=booking_id)
+
+    # Only the user who made the booking can access the confirmation
+    if booking.user != request.user:
+        return HttpResponseForbidden("You are not allowed to view this booking confirmation.")
+
+    return render(request, 'hotel_booking/booking_confirmation.html', {'booking': booking})
 
 
 def register(request):

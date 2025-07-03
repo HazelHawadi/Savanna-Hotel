@@ -2,7 +2,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from decimal import Decimal  # Import Decimal
+from decimal import Decimal
+from django.contrib.auth import get_backends
 from hotel_booking.models import Booking
 
 
@@ -12,15 +13,16 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            messages.success(
-                request, "Registration successful! Welcome."
+            backend = get_backends()[0]
+            login(
+                request,
+                user,
+                backend=backend.__module__ + "." + backend.__class__.__name__,
             )
+            messages.success(request, "Registration successful! Welcome.")
             return redirect("home")
         else:
-            messages.error(
-                request, "Registration failed. Please correct the errors."
-            )
+            messages.error(request, "Registration failed. Please correct the errors.")
     else:
         form = UserCreationForm()
 
@@ -37,25 +39,18 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(
-                    request, f"Welcome back, {user.username}!"
-                )
 
-                # Check if 'Remember Me' was checked
                 if request.POST.get('remember_me'):
-                    request.session.set_expiry(365 * 24 * 60 * 60)
+                    request.session.set_expiry(365 * 24 * 60 * 60)  # 1 year
                 else:
-                    request.session.set_expiry(0)
+                    request.session.set_expiry(0)  # Browser close
 
+                messages.success(request, f"Welcome back, {user.username}!")
                 return redirect("home")
             else:
-                messages.error(
-                    request, "Invalid username or password."
-                )
+                messages.error(request, "Invalid username or password.")
         else:
-            messages.error(
-                request, "Invalid credentials. Please try again."
-            )
+            messages.error(request, "Invalid credentials. Please try again.")
     else:
         form = AuthenticationForm()
 

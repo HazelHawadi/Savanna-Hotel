@@ -15,13 +15,14 @@ def add_review(request, room_id):
             review.user = request.user
             review.room = room
             review.save()
-            return redirect("hotel_booking:room_detail", id=room_id)
+            return redirect("hotel_booking:room_detail", id=room.id)
     else:
         form = ReviewForm()
+    
     return render(
         request,
-        "reviews/edit_review.html",
-        {"form": form, "review": review}
+        "reviews/add_review.html",
+        {"form": form, "room": room}
     )
 
 

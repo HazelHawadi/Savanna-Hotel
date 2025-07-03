@@ -2,7 +2,7 @@
 
 Savanna Hotel is a user-friendly platform designed to allow guests to easily book rooms, manage their reservations, and enjoy a seamless experience with modern features. The platform aims to offer a clean and intuitive interface for both guests and hotel staff.
 
-**Deployed site: [Savanna Hotel](https://savanna-hotel4-485797427d23.herokuapp.com/)**
+**Deployed site: [Savanna Hotel](https://savanna-hotel-49356fa5de49.herokuapp.com/)**
 
 ![Savanna Hotel responsive design](readme/assets/images/responsive.png)
 
@@ -13,6 +13,7 @@ Savanna Hotel is a user-friendly platform designed to allow guests to easily boo
     * [Site Owner's Goal](<#site-owners-goal>)
 * [**User Experience (UX)**](#user-experience)
     * [Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+    * [Database Schema](#database-schema)
     * [Wireframes](#wireframes)
     * [User Stories](#user-stories)
     * [Site Structure](#site-structure)
@@ -41,6 +42,25 @@ Provide a simple and intuitive platform for guests to book rooms, view details, 
 ## Entity Relationship Diagram (ERD)
 
 ![ERD](readme/assets/images/ERD.png)
+
+## Database Schema
+The Savanna Hotel platform uses a PostgreSQL database. The main tables and their relationships are illustrated in the Entity Relationship Diagram (ERD) above. Here is a summary of the key tables:
+
+- User: Stores guest and admin details, including authentication data.
+
+- Room: Contains information about each room, including type, description, price, and availability status.
+
+- Booking: Links users and rooms; stores booking dates, status, and total cost.
+
+- ContactMessage: Stores messages sent via the contact form, including sender details and message content.
+
+- The database structure ensures data integrity and supports features like:
+
+  - Preventing double bookings through room availability checks.
+
+  - Enabling admin management of rooms and bookings.
+
+  - Secure handling of user data.
 
 ## Wireframes
 
@@ -270,6 +290,35 @@ As the **Savanna Hotel** platform evolves, additional features will be added to 
 ### Css
 ![CSS](readme/assets/images/csstesting.png)
 
+## ✅ Automated Tests
+
+This project includes extensive automated tests for the main apps:
+
+### Hotel Booking App Tests
+**Tests cover:**
+- Model validation
+- booking requires login
+- successful booking
+- booking confirmation
+- API endpoints
+
+![Hotel Booking App Tests](readme/assets/images/hotel_booking_tests.png)
+
+### Accounts App Tests
+**Tests cover:**
+- User registration
+- Login/logout
+- Permissions and authentication
+
+![Accounts App Tests](readme/assets/images/accounts_tests.png)
+
+### Reviews App Tests
+**Tests cover:**
+- Review creation and deletion
+- Rating aggregation
+- API endpoints
+
+![Reviews App Tests](readme/assets/images/reviews_tests.png)
 
 ## Deployment
 

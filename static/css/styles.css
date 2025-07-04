@@ -18,7 +18,11 @@ body {
     color: #f8f9fa;
     font-family: 'Lora', serif;
     margin-top: 80px;
-    padding-top: 80px
+}
+
+div.flash-message {
+    margin-top: 80px;
+    padding-top: 80px;
 }
 
 .main-content {
@@ -93,10 +97,6 @@ html {
 
 .navbar-nav {
     margin-left: -20px;
-}
-
-#msg {
-    margin-top: 100px;
 }
 
 /* Buttons */
@@ -213,8 +213,7 @@ a:hover {
 
 /* Miscellaneous */
 .container {
-    margin-top: 100px;
-    padding: 20px;
+    padding-top: 80px;
 }
 
 
@@ -522,9 +521,6 @@ div#map {min-height: 360px;}
 
 /* For screens smaller than 576px (Phones) */
 @media (max-width: 576px) {
-    body {
-    padding-top: 100px;
-    }
 
     h1,
     h2,
@@ -564,6 +560,10 @@ div#map {min-height: 360px;}
 
     .container h2 {
         padding-top: 130px;
+    }
+
+    .container {
+        padding-top: 60px;
     }
 }
 

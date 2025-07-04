@@ -20,6 +20,11 @@ body {
     margin-top: 80px;
 }
 
+div.flash-message {
+    margin-top: 80px;
+    padding-top: 80px;
+}
+
 .main-content {
     min-height: calc(100vh - 50px);
     padding-bottom: 50px;
@@ -208,8 +213,7 @@ a:hover {
 
 /* Miscellaneous */
 .container {
-    margin-top: 50px;
-    padding: 20px;
+    padding-top: 80px;
 }
 
 
@@ -376,6 +380,32 @@ a:hover {
     background-color: #0056b3;
 }
 
+  /* Facebook login */
+.facebook-login-btn {
+  background-color: #1877F2;  /* Facebook brand blue */
+  border-color: #1877F2;
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.facebook-login-btn:hover {
+  background-color: #145dbf;
+  border-color: #145dbf;
+  text-decoration: none;
+  color: white;
+}
+
+.facebook-login-btn i {
+  font-size: 18px;
+}
+
 /* Cancel Button Styling */
 .cancel-button {
     background-color: #f8f9fa;
@@ -440,6 +470,11 @@ div#map {min-height: 360px;}
     border: none;
 }
 
+.toast-container {
+    top: 80px;
+    z-index: 1100;
+}
+
 /* For Mobile Devices (max-width: 480px) */
 @media (max-width: 480px) {
     .review-title {
@@ -468,16 +503,20 @@ div#map {min-height: 360px;}
 
     .reviews-section h3 {
         font-size: 1.5rem;
-      }
+    }
     
-      .review-item {
+    .review-item {
         padding: 12px;
-      }
+    }
     
-      .review-actions .btn-sm {
+    .review-actions .btn-sm {
         font-size: 0.8rem;
         padding: 3px 8px;
-      }
+    }
+
+    .toast-container {
+        top: 60px;
+    }
 }
 
 /* For screens smaller than 576px (Phones) */
@@ -522,7 +561,12 @@ div#map {min-height: 360px;}
     .container h2 {
         padding-top: 130px;
     }
+
+    .container {
+        padding-top: 60px;
+    }
 }
+
 
 /* For screens smaller than 768px (Tablets and phones) */
 @media (max-width: 768px) {

@@ -20,11 +20,6 @@ body {
     margin-top: 80px;
 }
 
-div.flash-message {
-    margin-top: 80px;
-    padding-top: 80px;
-}
-
 .main-content {
     min-height: calc(100vh - 50px);
     padding-bottom: 50px;
@@ -565,6 +560,10 @@ div#map {min-height: 360px;}
     .container {
         padding-top: 60px;
     }
+
+    div.flash-message {
+    padding-top: 80px;
+}
 }
 
 

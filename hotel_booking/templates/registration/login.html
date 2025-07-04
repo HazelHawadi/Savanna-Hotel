@@ -13,7 +13,7 @@
 <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
 
 <!-- Facebook Login Button -->
-<a href="{% provider_login_url 'facebook' %}"
-  >Login with Facebook</a
->
+<a href="{% provider_login_url 'facebook' %}" class="btn btn-primary facebook-login-btn">
+  <i class="fab fa-facebook-f"></i> Login with Facebook
+</a>
 {% endblock %}

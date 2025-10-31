@@ -14,24 +14,16 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    (
-        '8000-hazelhawadi-savannahote-4nwgbgp3r8i.'
-        'ws-eu117.gitpod.io'
-    ),
-    'savanna-hotel-49356fa5de49.herokuapp.com',
+    'savanna-hotel-c35d47e4549f.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    (
-        'https://8000-hazelhawadi-savannahote-4nwgbgp3r8i.'
-        'ws-eu117.gitpod.io'
-    ),
-    'https://savanna-hotel4-485797427d23.herokuapp.com',
+    'https://savanna-hotel-c35d47e4549f.herokuapp.com',
 ]
 
 # Application definition

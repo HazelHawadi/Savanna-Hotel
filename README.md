@@ -2,7 +2,7 @@
 
 Savanna Hotel is a user-friendly platform designed to allow guests to easily book rooms, manage their reservations, and enjoy a seamless experience with modern features. The platform aims to offer a clean and intuitive interface for both guests and hotel staff.
 
-**Deployed site: [Savanna Hotel](https://savanna-hotel-49356fa5de49.herokuapp.com/)**
+**Deployed site: [Savanna Hotel](https://savanna-hotel-c35d47e4549f.herokuapp.com/)**
 
 ![Savanna Hotel responsive design](readme/assets/images/responsive.png)
 
